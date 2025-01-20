@@ -2,6 +2,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./provider";
 import NavbarLayout from "@/components/navbar-layout";
+import FooterLayout from "@/components/footer-layout";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -29,6 +30,7 @@ export default function RootLayout({
         <Providers>
           <NavbarLayout />
           {children}
+          <FooterLayout />
         </Providers>
       </body>
     </html>
