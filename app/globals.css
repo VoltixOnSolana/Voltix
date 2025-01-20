@@ -58,3 +58,11 @@
     --chart-5: 340 75% 55%;
   }
 }
+
+.gradient-text {
+  background: linear-gradient(to bottom, #ffffff, #d1d1d1 75%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+  font-size: 3.5rem;
+}
