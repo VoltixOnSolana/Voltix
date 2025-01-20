@@ -11,7 +11,7 @@ import {
     NavbarItem,
     Link,
     Button
-} from "@/utils/NextUI";
+} from "@/utils/HeroUI";
 import { usePathname } from 'next/navigation';
 
 

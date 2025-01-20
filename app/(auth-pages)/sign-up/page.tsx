@@ -1,7 +1,7 @@
 "use client";
 
 import { signUpAction } from "@/app/actions";
-import { Form, Input, Button } from "@/utils/NextUI";
+import { Form, Input, Button } from "@/utils/HeroUI";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React from "react";
