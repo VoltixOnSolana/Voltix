@@ -50,7 +50,7 @@ export default function Signup() {
 
   return (
     <Form
-      className="w-full justify-center items-center space-y-4"
+      className="w-full justify-center items-center space-y-4 text-white"
       validationBehavior="native"
       validationErrors={errors}
       onSubmit={onSubmit}

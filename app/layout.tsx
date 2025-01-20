@@ -1,7 +1,7 @@
 import { Geist } from "next/font/google";
-import Link from "next/link";
 import "./globals.css";
 import { Providers } from "./provider";
+import NavbarLayout from "@/components/navbar-layout";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -25,8 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
-      <body suppressHydrationWarning className="bg-background text-foreground">
+      <body suppressHydrationWarning className="bg-gray-900 text-white h-screen">
         <Providers>
+          <NavbarLayout />
           {children}
         </Providers>
       </body>
