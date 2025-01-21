@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
+// Composant pour animer et faire défiler une liste de mots
 export const FlipWords = ({
     words,
     duration = 2000,
@@ -12,15 +13,19 @@ export const FlipWords = ({
     duration?: number;
     className?: string;
 }) => {
+    // État pour le mot actuellement affiché
     const [currentWord, setCurrentWord] = useState(words[0]);
+    // État pour savoir si une animation est en cours
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
+    // Fonction pour démarrer l'animation et passer au mot suivant
     const startAnimation = useCallback(() => {
         const word = words[words.indexOf(currentWord) + 1] || words[0];
         setCurrentWord(word);
         setIsAnimating(true);
     }, [currentWord, words]);
 
+    // Utilisation de useEffect pour démarrer l'animation après un délai
     useEffect(() => {
         if (!isAnimating)
             setTimeout(() => {
@@ -35,19 +40,23 @@ export const FlipWords = ({
             }}
         >
             <motion.div
+                // Animation d'entrée
                 initial={{
                     opacity: 0,
                     y: 10,
                 }}
+                // Animation d'affichage
                 animate={{
                     opacity: 1,
                     y: 0,
                 }}
+                // Transition de l'animation
                 transition={{
                     type: "spring",
                     stiffness: 100,
                     damping: 10,
                 }}
+                // Animation de sortie
                 exit={{
                     opacity: 0,
                     y: -40,
