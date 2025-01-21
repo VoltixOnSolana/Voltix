@@ -26,7 +26,7 @@ export default function NavbarLayout() {
     return (
         <Navbar
             shouldHideOnScroll
-            className={"bg-gray-900 text-white"}
+            className={"bg-black/30 text-white"}
             onMenuOpenChange={setIsMenuOpen}
             isBordered
         >
