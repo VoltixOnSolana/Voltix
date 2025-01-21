@@ -13,6 +13,7 @@ export default function Signup() {
   const searchParams = useSearchParams();
   const success = searchParams.get("success");
   const error = searchParams.get("error");
+  const email = searchParams.get("email");
   const getPasswordError = (value: string) => {
     if (value.length < 8) {
       return "Votre mot de passe doit contenir au moins 8 caractères  ";
@@ -89,6 +90,7 @@ export default function Signup() {
         </div>
         <Input
           isRequired
+          value={email || ""}
           errorMessage={({ validationDetails }) => {
             if (validationDetails.valueMissing) {
               return "Veuillez entrer votre email";
