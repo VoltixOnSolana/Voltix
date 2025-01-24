@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(uuid()) @db.Uuid
+  username  String    @unique
+  email     String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  transactions Transaction[]
+  invoices Invoice[]
+}
+
+model Token {
+  id         String    @id @default(uuid()) @db.Uuid
+  symbol     String
+  name       String
+  price      Float
+  marketCap  Float
+  supply     Float
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  transactions Transaction[]
+}
+
+model Transaction {
+  id                  String   @id @default(uuid()) @db.Uuid
+  userId              String   @db.Uuid
+  tokenId             String   @db.Uuid
+  amount              Float
+  priceAtTransaction  Float
+  transactionType     String  
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token   Token  @relation(fields: [tokenId], references: [id], onDelete: Cascade)
+}
+
+model Invoice {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @db.Uuid
+  amount    Float
+  status    String   
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
