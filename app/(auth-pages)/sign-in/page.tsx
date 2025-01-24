@@ -1,5 +1,5 @@
 import { signInAction } from "@/app/actions";
-import { Button } from "@/utils/NextUI";
+import { Button } from "@/utils/HeroUI";
 import Link from "next/link";
 
 export default async function Login() {
