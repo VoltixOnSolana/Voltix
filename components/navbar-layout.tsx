@@ -13,9 +13,14 @@ import {
     Button
 } from "@/utils/HeroUI";
 import { usePathname } from 'next/navigation';
+import { User } from '@supabase/supabase-js';
+import { signOutAction } from "@/app/(auth-pages)/action/authAction"
 
+interface NavbarLayoutProps {
+    user: User | null;
+}
 
-export default function NavbarLayout() {
+export default function NavbarLayout({ user }: NavbarLayoutProps) {
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
@@ -57,16 +62,35 @@ export default function NavbarLayout() {
                     </Link>
                 </NavbarItem>
             </NavbarContent>
-            <NavbarContent justify="end">
-                <NavbarItem className="hidden lg:flex">
-                    <Link className="text-white" href="/sign-in">Connexion</Link>
+            {!user ? (
+                <NavbarContent justify="end">
+                    <NavbarItem className="hidden lg:flex">
+                        <Link className="text-white" href="/sign-in">Connexion</Link>
                 </NavbarItem>
                 <NavbarItem>
                     <Button as={Link} color="primary" href="/sign-up" variant="solid">
                         Inscription
                     </Button>
                 </NavbarItem>
-            </NavbarContent>
+                </NavbarContent>
+            ) : (
+                <NavbarContent justify="end">
+                    <NavbarItem className="hidden lg:flex">
+                        <Link className="text-white" href={`/user/${user.id}/account`}>Mon compte</Link>
+                    </NavbarItem>
+                    <NavbarItem className="hidden lg:flex">
+                    <form action={signOutAction}>
+                        <Button
+                            type="submit"
+                            size="lg"
+                            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground bg-primary text-primary-foreground hover:bg-red-500 hover:text-primary-foreground/90"
+                        >
+                            Déconnexion
+                        </Button>
+                    </form>
+                    </NavbarItem>
+                </NavbarContent>
+            )}
             <NavbarMenu className="bg-gray-900 text-white">
                 <NavbarMenuItem isActive={isActive("/")}>
                     <Link className="text-white w-full" href="/">
