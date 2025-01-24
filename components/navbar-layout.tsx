@@ -14,7 +14,7 @@ import {
 } from "@/utils/HeroUI";
 import { usePathname } from 'next/navigation';
 import { User } from '@supabase/supabase-js';
-import { signOutAction } from "@/app/(auth-pages)/action/authAction"
+import { signOutAction } from "@/app/(auth-pages)/actions/authActions"
 
 interface NavbarLayoutProps {
     user: User | null;
