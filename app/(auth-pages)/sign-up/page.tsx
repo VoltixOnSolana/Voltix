@@ -79,20 +79,6 @@ export default function Signup() {
             isRequired
             errorMessage={({ validationDetails }) => {
               if (validationDetails.valueMissing) {
-                return "Veuillez entrer votre nom";
-              }
-
-              return errors.name;
-            }}
-            label="Nom"
-            labelPlacement="outside"
-            name="lastname"
-            placeholder="Entrez votre nom"
-          />
-          <Input
-            isRequired
-            errorMessage={({ validationDetails }) => {
-              if (validationDetails.valueMissing) {
                 return "Veuillez entrer votre prénom";
               }
 
@@ -102,6 +88,20 @@ export default function Signup() {
             labelPlacement="outside"
             name="firstname"
             placeholder="Entrez votre prénom"
+          />
+                   <Input
+            isRequired
+            errorMessage={({ validationDetails }) => {
+              if (validationDetails.valueMissing) {
+                return "Veuillez entrer votre nom";
+              }
+
+              return errors.name;
+            }}
+            label="Nom"
+            labelPlacement="outside"
+            name="lastname"
+            placeholder="Entrez votre nom"
           />
         </div>
         <Input
