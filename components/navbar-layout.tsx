@@ -15,6 +15,7 @@ import {
 import { usePathname } from 'next/navigation';
 import { User } from '@supabase/supabase-js';
 import { signOutAction } from "@/app/(auth-pages)/actions/authActions"
+import { paths } from '@/paths';
 
 interface NavbarLayoutProps {
     user: User | null;
@@ -46,18 +47,18 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
             </NavbarContent>
 
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
-                <NavbarItem isActive={isActive("/")}>
-                    <Link className="text-white" href="/">
+                <NavbarItem isActive={isActive(paths.home())}>
+                    <Link className="text-white" href={paths.home()}>
                         Accueil
                     </Link>
                 </NavbarItem>
-                <NavbarItem isActive={isActive("/about")}>
-                    <Link className="text-white" href="/about">
+                <NavbarItem isActive={isActive(paths.about())}>
+                    <Link className="text-white" href={paths.about()}>
                         A propos
                     </Link>
                 </NavbarItem>
-                <NavbarItem isActive={isActive("/contact")}>
-                    <Link className="text-white" href="/contact">
+                <NavbarItem isActive={isActive(paths.contact())}>
+                    <Link className="text-white" href={paths.contact()}>
                         Contact
                     </Link>
                 </NavbarItem>
@@ -65,10 +66,10 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
             {!user ? (
                 <NavbarContent justify="end">
                     <NavbarItem className="hidden lg:flex">
-                        <Link className="text-white" href="/sign-in">Connexion</Link>
+                        <Link className="text-white" href={paths.signIn()}>Connexion</Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Button as={Link} color="primary" href="/sign-up" variant="solid">
+                    <Button as={Link} color="primary" href={paths.signUp()} variant="solid">
                         Inscription
                     </Button>
                 </NavbarItem>
@@ -76,7 +77,7 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
             ) : (
                 <NavbarContent justify="end">
                     <NavbarItem className="hidden lg:flex">
-                        <Link className="text-white" href={`/user/${user.id}/account`}>Mon compte</Link>
+                        <Link className="text-white" href={paths.userAccount(user.id)}>Mon compte</Link>
                     </NavbarItem>
                     <NavbarItem className="hidden lg:flex">
                     <form action={signOutAction}>
@@ -92,18 +93,18 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
                 </NavbarContent>
             )}
             <NavbarMenu className="bg-gray-900 text-white">
-                <NavbarMenuItem isActive={isActive("/")}>
-                    <Link className="text-white w-full" href="/">
+                <NavbarMenuItem isActive={isActive(paths.home())}>
+                    <Link className="text-white w-full" href={paths.home()}>
                         Accueil
                     </Link>
                 </NavbarMenuItem>
-                <NavbarMenuItem isActive={isActive("/about")}>
-                    <Link className="text-white w-full" href="/about">
+                <NavbarMenuItem isActive={isActive(paths.about())}>
+                    <Link className="text-white w-full" href={paths.about()}>
                         A propos
                     </Link>
                 </NavbarMenuItem>
-                <NavbarMenuItem isActive={isActive("/contact")}>
-                    <Link className="text-white w-full" href="/contact">
+                <NavbarMenuItem isActive={isActive(paths.contact())}>
+                    <Link className="text-white w-full" href={paths.contact()}>
                         Contact
                     </Link>
                 </NavbarMenuItem>
