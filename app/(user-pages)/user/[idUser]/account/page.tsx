@@ -1,7 +1,7 @@
 export default async function AccountPage() {
     return (
-        <div>
-            User Account
+        <div className="w-full h-screen">
+            Hello
         </div>
     )
 }
