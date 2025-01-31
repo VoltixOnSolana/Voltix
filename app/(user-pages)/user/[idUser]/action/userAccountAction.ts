@@ -26,3 +26,23 @@ export async function getTokenOfUser(id: string) {
 
     return tokenRows;
 }
+
+export async function getTransactionsForLast7Days(userId: string) {
+    const now = new Date();
+    const sevenDaysAgo = new Date(now);
+    sevenDaysAgo.setDate(now.getDate() - 7); 
+  
+    const transactions = await prisma.transaction.findMany({
+      where: {
+        userId: userId,
+        createdAt: {
+          gte: sevenDaysAgo,
+        },
+      },
+      include: {
+        token: true, 
+      },
+    });
+  
+    return transactions;
+  }
