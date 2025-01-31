@@ -1,19 +1,37 @@
 "use client";
 
-import { signUpAction } from "@/app/actions";
+import { signUpAction } from "@/app/(auth-pages)/actions/authActions";
+import { paths } from "@/paths";
 import { Form, Input, Button } from "@/utils/HeroUI";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function Signup() {
   const [errors, setErrors] = React.useState<{ [key: string]: string }>({});
+  const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const searchParams = useSearchParams();
   const success = searchParams.get("success");
   const error = searchParams.get("error");
-  const email = searchParams.get("email");
+  const emailFromUrl = searchParams.get("email");
+
+
+  useEffect(() => {
+    if (emailFromUrl) {
+      setEmail(emailFromUrl);
+    }
+  }, [emailFromUrl]);
+
+  useEffect(() => {
+    if (error) {
+      setLoading(false)
+    }
+  }, [error]);
+
+    
+
   const getPasswordError = (value: string) => {
     if (value.length < 8) {
       return "Votre mot de passe doit contenir au moins 8 caractères  ";
@@ -42,37 +60,22 @@ export default function Signup() {
     setErrors({});
     setLoading(true);
     await signUpAction(new FormData(e.currentTarget));
-    setLoading(false);
   };
 
   if (success) {
-    return <div>Merci pour votre inscription ! Veuillez vérifier votre email vous avez reçu un lien de vérification.</div>;
+    return <div className="h-screen text-center"><p className="w-12vh">Merci pour votre inscription ! Veuillez vérifier votre email vous avez reçu un lien de vérification.</p></div>;
   }
 
   return (
     <Form
-      className="w-full justify-center items-center space-y-4 text-white"
+      className="w-full h-screen justify-center items-center space-y-4 text-white"
       validationBehavior="native"
       validationErrors={errors}
       onSubmit={onSubmit}
     >
-      <h1 className="text-2xl font-medium">Créer un compte</h1>
-      <div className="flex flex-col gap-4 max-w-lg">
-        <div className="flex flex-row gap-4">
-          <Input
-            isRequired
-            errorMessage={({ validationDetails }) => {
-              if (validationDetails.valueMissing) {
-                return "Veuillez entrer votre nom";
-              }
-
-              return errors.name;
-            }}
-            label="Nom"
-            labelPlacement="outside"
-            name="lastname"
-            placeholder="Entrez votre nom"
-          />
+      <h1 className="text-2xl font-medium text-center">Créer un compte</h1>
+      <div className="flex flex-col gap-4 max-w-lg items-center justify-center">
+        <div className="flex flex-row gap-4 items-center">
           <Input
             isRequired
             errorMessage={({ validationDetails }) => {
@@ -87,10 +90,24 @@ export default function Signup() {
             name="firstname"
             placeholder="Entrez votre prénom"
           />
+                   <Input
+            isRequired
+            errorMessage={({ validationDetails }) => {
+              if (validationDetails.valueMissing) {
+                return "Veuillez entrer votre nom";
+              }
+
+              return errors.name;
+            }}
+            label="Nom"
+            labelPlacement="outside"
+            name="lastname"
+            placeholder="Entrez votre nom"
+          />
         </div>
         <Input
           isRequired
-          value={email || ""}
+          value={email}
           errorMessage={({ validationDetails }) => {
             if (validationDetails.valueMissing) {
               return "Veuillez entrer votre email";
@@ -104,6 +121,7 @@ export default function Signup() {
           name="email"
           placeholder="Entrez votre email"
           type="email"
+          onChange={e => setEmail(e.target.value)}
         />
         <Input
           isRequired
@@ -124,7 +142,7 @@ export default function Signup() {
         </div>
         <p className="text-sm text-foreground">
           Vous avez déjà un compte ?{" "}
-          <Link className="text-foreground font-medium underline" href="/sign-in">
+          <Link className="text-foreground font-medium underline" href={paths.signIn()}>
             Connexion
           </Link>
         </p>
