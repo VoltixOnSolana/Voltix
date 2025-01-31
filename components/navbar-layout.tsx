@@ -46,6 +46,11 @@ export default function NavbarLayout() {
                         Accueil
                     </Link>
                 </NavbarItem>
+                <NavbarItem isActive={isActive("/market")}>
+                    <Link className="text-white" href="/market">
+                        Market
+                    </Link>
+                </NavbarItem>
                 <NavbarItem isActive={isActive("/about")}>
                     <Link className="text-white" href="/about">
                         A propos
