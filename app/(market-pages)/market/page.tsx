@@ -1,63 +1,56 @@
-import React from "react";
-import {
-    Table,
-    TableHeader,
-    TableColumn,
-    TableBody,
-    TableRow,
-    TableCell,
-    getKeyValue,
-  } from "@heroui/react";
+"use client";
+import React, { useEffect, useState } from "react";
 import TableTokens from "@/components/table-tokens";
+import { getTokenFromDb, getPriceOfToken } from "../action/merketAction";  // Assure-toi que `getPriceOfToken` est bien importée
 
-const rows = [
-    {
-        "key": 1,
-        "id": "f9b74f5e-12f4-4ab1-bf2c-3c5b7762c9e7",
-        "symbol": "BTC",
-        "name": "Bitcoin",
-        "price": 45000.25,
-        "marketCap": 850000000000,
-        "supply": 21000000,
-        "createdAt": "2025-01-24T10:00:00.000Z",
-        "updatedAt": "2025-01-24T10:00:00.000Z",
-      },
-      {
-        "key": 2,
-        "id": "d3a2e5f1-3cd1-4be0-8ec9-23c5c1a273bb",
-        "symbol": "ETH",
-        "name": "Ethereum",
-        "price": 3200.75,
-        "marketCap": 380000000000,
-        "supply": 115000000,
-        "createdAt": "2025-01-24T10:00:00.000Z",
-        "updatedAt": "2025-01-24T10:00:00.000Z",
-      },
-      {
-        "key": 3,
-        "id": "d782fc39-8bc0-4640-95d5-560d25fe9ad4",
-        "symbol": "ADA",
-        "name": "Cardano",
-        "price": 1.35,
-        "marketCap": 45000000000,
-        "supply": 34000000000,
-        "createdAt": "2025-01-24T10:00:00.000Z",
-        "updatedAt": "2025-01-24T10:00:00.000Z",
-      }
+// Définition de RowType
+interface RowType {
+  id: number;
+  symbol: string;
+  name: string;
+  price: number;
+  marketCap: number;
+  supply: number;
+}
+
+// Définition des colonnes avec `keyof RowType`
+const columns: { id: keyof RowType; label: string }[] = [
+  { id: "symbol", label: "Symbol" },
+  { id: "name", label: "Name" },
+  { id: "price", label: "Price" },
+  { id: "marketCap", label: "Market Cap" },
+  { id: "supply", label: "Supply" },
 ];
-  
-const columns = [
-    { key: "symbol", label: "Symbol" },
-    { key: "name", label: "Name" },
-    { key: "price", label: "Price" },
-    { key: "marketCap", label: "MarketCap" },
-    { key: "supply", label: "Supply" },
-  ];
-  
 
-export default async function Market() {
-    return (
-        <TableTokens columns={columns} rows={rows} />
-      );
-    }
-  
+export default function Market() {
+  const [rows, setRows] = useState<RowType[]>([]); 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const tokensFromDb = await getTokenFromDb();
+        
+        // Récupérer les prix des tokens depuis CoinGecko
+        const formattedRows = await Promise.all(tokensFromDb.map(async (token) => {
+          const price = await getPriceOfToken(token.symbol);  // Appel API pour récupérer le prix
+          return {
+            id: token.id, 
+            symbol: token.symbol,
+            name: token.name,
+            price: price || 0,  // Si le prix est null, on met 0
+            marketCap: token.marketCap,
+            supply: token.supply,
+          };
+        }));
+        
+        setRows(formattedRows);  // Mettre à jour l'état avec les données formatées
+      } catch (error) {
+        console.error("Error fetching tokens:", error);
+      }
+    };
+
+    fetchData();
+  }, []); 
+
+  return <TableTokens columns={columns} rows={rows} />;
+}
