@@ -1,4 +1,5 @@
 import { signInAction } from "@/app/(auth-pages)/actions/authActions";
+import { paths } from "@/paths";
 import { Button } from "@/utils/HeroUI";
 import Link from "next/link";
 
@@ -8,7 +9,7 @@ export default async function Login() {
       <h1 className="text-2xl font-medium">Connexion</h1>
       <p className="text-sm text-foreground">
         Vous n'avez pas de compte ?{" "}
-        <Link className="text-foreground font-medium underline" href="/sign-up">
+        <Link className="text-foreground font-medium underline" href={paths.signUp()}>
           Créer un compte
         </Link>
       </p>
