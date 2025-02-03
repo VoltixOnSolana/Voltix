@@ -36,8 +36,8 @@ export default function Market() {
               symbol: token.symbol,
               name: token.name,
               price: priceData?.price ? parseFloat(priceData.price.toFixed(2)) : 0,  // Arrondi à 2 chiffres
-              marketCap: priceData?.marketCap || 0,
-              supply: priceData?.supply || 0,
+              marketCap: priceData?.marketCap ? parseFloat(priceData.marketCap.toFixed(2)) : 0,
+              supply: priceData?.supply ? parseFloat(priceData.supply.toFixed(2)) : 0,
             };
           })
         );
