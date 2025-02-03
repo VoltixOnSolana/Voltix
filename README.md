@@ -41,7 +41,7 @@ Pour déployer votre application, utilisez la commande suivante :
 
 ## URL de Production
 
-L'application est déployée à l'URL suivante : [Voltix Production](https://voltix-ns9krhbzx-giovanni532s-projects.vercel.app/)
+L'application est déployée à l'URL suivante : [Voltix Production](https://voltix-phi.vercel.app/)
 
 ## Lancer le Seed
 
