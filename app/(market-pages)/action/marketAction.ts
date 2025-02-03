@@ -26,7 +26,7 @@ interface RowType {
 export async function getPriceOfToken(symbol: string): Promise<RowType | null> {
   const API_KEY = 'cc0ba194-01f6-4f66-867a-d68292c133d9'; 
   try {
-    const response = await fetch(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?symbol=${symbol.toUpperCase()}`, {
+    const response = await fetch(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=${symbol.toUpperCase()}`, {
       headers: {
         'X-CMC_PRO_API_KEY': API_KEY, 
         'Accept': 'application/json',
@@ -38,13 +38,13 @@ export async function getPriceOfToken(symbol: string): Promise<RowType | null> {
     }
 
     const data = await response.json();
-    
-    // Vérification de la présence de données valides
-    if (data.status.error_code !== 0 || !data.data || data.data.length === 0) {
+    console.log(data); // Ajout pour voir la réponse
+
+    if (!data.data || !data.data[symbol.toUpperCase()]) {
       throw new Error("Token introuvable dans les données de CoinMarketCap");
     }
 
-    const tokenData = data.data[0]; 
+    const tokenData = data.data[symbol.toUpperCase()];
 
     return {
       id: Date.now(),
@@ -59,6 +59,7 @@ export async function getPriceOfToken(symbol: string): Promise<RowType | null> {
     return null;
   }
 }
+
 
   
   

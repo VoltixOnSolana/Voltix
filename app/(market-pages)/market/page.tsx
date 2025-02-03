@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import TableTokens from "@/components/table-tokens";
-import { getTokenFromDb, getPriceOfToken } from "../action/merketAction";  
+import { getTokenFromDb, getPriceOfToken } from "../action/marketAction";  
 
 interface RowType {
   id: number;
@@ -35,7 +35,7 @@ export default function Market() {
               id: token.id, 
               symbol: token.symbol,
               name: token.name,
-              price: priceData?.price || 0,  
+              price: priceData?.price ? parseFloat(priceData.price.toFixed(2)) : 0,  // Arrondi à 2 chiffres
               marketCap: priceData?.marketCap || 0,
               supply: priceData?.supply || 0,
             };
@@ -53,3 +53,4 @@ export default function Market() {
 
   return <TableTokens columns={columns} rows={rows} />;
 }
+
