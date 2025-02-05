@@ -28,6 +28,7 @@ export default async function RootLayout({
 }>) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
       <body suppressHydrationWarning className="bg-gray-900 text-white h-full">

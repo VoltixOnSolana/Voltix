@@ -1,9 +1,6 @@
 import { TablesTokens } from "@/components/tables-tokens"
 import { getTokenOfUser, getTransactionsForLast7Days } from "../action/userAccountAction"
 import { ChartUserAccount } from "@/components/chart-user-account"
-import { Button } from "@heroui/react"
-import Link from "next/link"
-import { paths } from "@/paths"
 import { ChartActifUser } from "@/components/chart-actif-user"
 
 // Type pour les paramètres de la fonction asynchrone
@@ -65,7 +62,7 @@ export default async function AccountPage({
                     <ChartUserAccount rows={tokens} />
                 </div>
             </div>
-            <TablesTokens rows={tokens} />
+            <TablesTokens isActifUser={true} tokensFromUser={tokens} />
         </div>
     )
 }
