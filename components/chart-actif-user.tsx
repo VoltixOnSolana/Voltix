@@ -96,7 +96,7 @@ export function ChartActifUser({ rows, idUser }: ChartActifUserProps) {
         </Button>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <LineChart
             accessibilityLayer
             data={chartData}
