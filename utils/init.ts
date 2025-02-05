@@ -1,11 +1,7 @@
-const defaultUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
-
 export async function initCron() {
     try {
         // Appelle l'API CRON
-        const response = await fetch(`${defaultUrl}/api/cron`);
+        const response = await fetch(`/api/cron`);
         const data = await response.json();
 
         // Vérifie si la réponse contient des tokens
