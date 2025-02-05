@@ -155,9 +155,6 @@ export function ChartActifUser({ rows, idUser }: ChartActifUserProps) {
           </LineChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className=" text-sm">
-        {/* Pied de carte, peut être utilisé pour des informations supplémentaires */}
-      </CardFooter>
     </Card>
   )
 }

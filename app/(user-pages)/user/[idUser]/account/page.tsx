@@ -1,5 +1,5 @@
 import { TablesTokens } from "@/components/tables-tokens"
-import { getTokenOfUser, getTransactionsForLast7Days } from "../action/userAccountAction"
+import { getTokenOfUser } from "../action/userAccountAction"
 import { ChartUserAccount } from "@/components/chart-user-account"
 import { ChartActifUser } from "@/components/chart-actif-user"
 

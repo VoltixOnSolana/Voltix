@@ -1,5 +1,6 @@
-"use client"
-import { useTokens } from '@/contexts/TokenContext';
+"use client" // Indique que ce fichier est destiné à être exécuté côté client
+
+import { useTokens } from '@/contexts/TokenContext'; // Importation du contexte des tokens
 import {
     Table,
     TableHeader,
@@ -8,8 +9,9 @@ import {
     TableRow,
     TableCell,
     getKeyValue,
-} from "@heroui/react";
+} from "@heroui/react"; // Importation des composants de la bibliothèque @heroui/react
 
+// Définition des colonnes pour l'affichage des tokens de l'utilisateur
 const columnsActifUser = [
     {
         key: "symbol",
@@ -25,6 +27,7 @@ const columnsActifUser = [
     },
 ];
 
+// Définition des colonnes pour l'affichage des tokens du marché
 const columnsDb = [
     {
         key: "symbol",
@@ -48,6 +51,7 @@ const columnsDb = [
     },
 ];
 
+// Interface pour définir la structure commune d'un token
 interface CommonToken {
     symbol: string;
     price: number;
@@ -58,11 +62,13 @@ interface CommonToken {
     supply?: number;
 }
 
+// Interface pour les propriétés du composant TableTokens
 interface TableTokensProps {
-    isActifUser: boolean;
-    tokensFromUser?: CommonToken[]
+    isActifUser: boolean; // Indique si l'utilisateur est actif
+    tokensFromUser?: CommonToken[] // Liste des tokens de l'utilisateur
 }
 
+// Fonction pour formater le prix selon le format français
 function formatPrice(value: number): string {
     if (value < 1) {
         return value.toLocaleString('fr-FR', { minimumFractionDigits: 3, maximumFractionDigits: 7 }).replace(/\s/g, "'");
@@ -70,8 +76,9 @@ function formatPrice(value: number): string {
     return value.toLocaleString('fr-FR', { maximumFractionDigits: 0 }).replace(/\s/g, "'");
 }
 
+// Composant principal pour afficher les tokens
 export function TablesTokens({ isActifUser, tokensFromUser }: TableTokensProps) {
-    const { tokens: marketTokens } = useTokens();
+    const { tokens: marketTokens } = useTokens(); // Récupération des tokens du marché depuis le contexte
 
     // Combiner les données utilisateur avec les prix du marché
     const displayTokens: CommonToken[] = isActifUser
@@ -84,7 +91,7 @@ export function TablesTokens({ isActifUser, tokensFromUser }: TableTokensProps) 
         }) ?? [])
         : marketTokens;
 
-    const columns = isActifUser ? columnsActifUser : columnsDb;
+    const columns = isActifUser ? columnsActifUser : columnsDb; // Choix des colonnes selon l'état de l'utilisateur
 
     // Tri des tokens
     if (isActifUser && displayTokens) {
