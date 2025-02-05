@@ -10,6 +10,7 @@ import {
     TableCell,
     getKeyValue,
 } from "@heroui/react"; // Importation des composants de la bibliothèque @heroui/react
+import NumberTicker from './ui/number-ticker';
 
 // Définition des colonnes pour l'affichage des tokens de l'utilisateur
 const columnsActifUser = [
@@ -68,14 +69,6 @@ interface TableTokensProps {
     tokensFromUser?: CommonToken[] // Liste des tokens de l'utilisateur
 }
 
-// Fonction pour formater le prix selon le format français
-function formatPrice(value: number): string {
-    if (value < 1) {
-        return value.toLocaleString('fr-FR', { minimumFractionDigits: 3, maximumFractionDigits: 7 }).replace(/\s/g, "'");
-    }
-    return value.toLocaleString('fr-FR', { maximumFractionDigits: 0 }).replace(/\s/g, "'");
-}
-
 // Composant principal pour afficher les tokens
 export function TablesTokens({ isActifUser, tokensFromUser }: TableTokensProps) {
     const { tokens: marketTokens } = useTokens(); // Récupération des tokens du marché depuis le contexte
@@ -119,9 +112,9 @@ export function TablesTokens({ isActifUser, tokensFromUser }: TableTokensProps) 
                             {(columnKey) => (
                                 <TableCell>
                                     {columnKey === "price" && !isActifUser
-                                        ? formatPrice(item.price) + " €"
+                                        ? <NumberTicker value={item.price} isPrimary={false} />
                                         : isActifUser && columnKey === "price"
-                                            ? formatPrice(item.price * (item.amount ?? 0)) + " €"
+                                            ? <NumberTicker value={item.price * (item.amount ?? 0)} isPrimary={false} />
                                             : getKeyValue(item, columnKey)}
                                 </TableCell>
                             )}
