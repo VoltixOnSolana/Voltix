@@ -56,6 +56,11 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
                         Accueil
                     </Link>
                 </NavbarItem>
+                <NavbarItem isActive={isActive(paths.market())}>
+                    <Link className="text-white" href={paths.market()}>
+                        Market
+                    </Link>
+                </NavbarItem>
                 {/* Lien vers la page à propos */}
                 <NavbarItem isActive={isActive(paths.about())}>
                     <Link className="text-white" href={paths.about()}>
@@ -107,6 +112,11 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
                 <NavbarMenuItem isActive={isActive(paths.home())}>
                     <Link className="text-white w-full" href={paths.home()}>
                         Accueil
+                    </Link>
+                </NavbarMenuItem>
+                <NavbarMenuItem isActive={isActive(paths.market())}>
+                    <Link className="text-white w-full" href={paths.market()}>
+                        Market
                     </Link>
                 </NavbarMenuItem>
                 <NavbarMenuItem isActive={isActive(paths.about())}>
