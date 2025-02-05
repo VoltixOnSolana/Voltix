@@ -30,6 +30,13 @@ interface CommonToken {
   name?: string;
   marketCap?: number;
   supply?: number;
+  lastPrice?: number;
+  lastPrice2?: number;
+  lastPrice3?: number;
+  lastPrice4?: number;
+  lastPrice5?: number;
+  lastPrice6?: number;
+  lastPrice7?: number;
 }
 interface ChartActifUserProps {
   rows: CommonToken[]
@@ -40,33 +47,31 @@ interface ChartActifUserProps {
 export function ChartActifUser({ rows, idUser }: ChartActifUserProps) {
   const { tokens: marketTokens } = useTokens();
 
-  // Calcul du montant total en utilisant les prix actuels du marché
+  // Calcul du montant total actuel
   const totalAmount = rows.reduce((acc, row) => {
-    // Trouver le prix actuel du marché pour ce token
     const marketToken = marketTokens.find(t => t.symbol === row.symbol);
-    // Utiliser le prix du marché s'il existe, sinon utiliser le prix stocké
     const currentPrice = marketToken?.price || row.price;
-    // Calculer la valeur totale pour ce token (quantité × prix actuel)
     return acc + ((row.amount ?? 0) * currentPrice);
   }, 0);
 
-  // Transformation des données pour le graphique
-  let chartData = rows.map((row) => ({
-    date: row.date,
-    amount: row.amount,
-  }))
+  // Création des données du graphique sur 7 jours
+  const chartData = [
+    { date: "J-7", amount: calculateDayTotal(7) },
+    { date: "J-6", amount: calculateDayTotal(6) },
+    { date: "J-5", amount: calculateDayTotal(5) },
+    { date: "J-4", amount: calculateDayTotal(4) },
+    { date: "J-3", amount: calculateDayTotal(3) },
+    { date: "J-2", amount: calculateDayTotal(2) },
+    { date: "J-1", amount: calculateDayTotal(1) },
+    { date: "Aujourd'hui", amount: totalAmount },
+  ];
 
-  // Ajout d'un jour précédent si un seul élément est présent
-  if (chartData.length === 1) {
-    const previousDate = new Date(chartData[0].date)
-    previousDate.setDate(previousDate.getDate() - 1)
-    chartData = [
-      {
-        date: previousDate.toISOString().split('T')[0], // Format YYYY-MM-DD
-        amount: 0,
-      },
-      ...chartData,
-    ]
+  // Fonction pour calculer le total pour un jour spécifique
+  function calculateDayTotal(day: number): number {
+    return rows.reduce((acc, row) => {
+      const historicPrice = Number(row[`lastPrice${day}` as keyof typeof row] || row.price);
+      return acc + ((row.amount ?? 0) * historicPrice);
+    }, 0);
   }
 
   // Configuration du graphique
