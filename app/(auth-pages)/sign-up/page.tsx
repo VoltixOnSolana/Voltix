@@ -1,6 +1,7 @@
 "use client";
 
 import { signUpAction } from "@/app/(auth-pages)/actions/authActions";
+import { paths } from "@/paths";
 import { Form, Input, Button } from "@/utils/HeroUI";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -79,20 +80,6 @@ export default function Signup() {
             isRequired
             errorMessage={({ validationDetails }) => {
               if (validationDetails.valueMissing) {
-                return "Veuillez entrer votre nom";
-              }
-
-              return errors.name;
-            }}
-            label="Nom"
-            labelPlacement="outside"
-            name="lastname"
-            placeholder="Entrez votre nom"
-          />
-          <Input
-            isRequired
-            errorMessage={({ validationDetails }) => {
-              if (validationDetails.valueMissing) {
                 return "Veuillez entrer votre prénom";
               }
 
@@ -102,6 +89,20 @@ export default function Signup() {
             labelPlacement="outside"
             name="firstname"
             placeholder="Entrez votre prénom"
+          />
+                   <Input
+            isRequired
+            errorMessage={({ validationDetails }) => {
+              if (validationDetails.valueMissing) {
+                return "Veuillez entrer votre nom";
+              }
+
+              return errors.name;
+            }}
+            label="Nom"
+            labelPlacement="outside"
+            name="lastname"
+            placeholder="Entrez votre nom"
           />
         </div>
         <Input
@@ -141,7 +142,7 @@ export default function Signup() {
         </div>
         <p className="text-sm text-foreground">
           Vous avez déjà un compte ?{" "}
-          <Link className="text-foreground font-medium underline" href="/sign-in">
+          <Link className="text-foreground font-medium underline" href={paths.signIn()}>
             Connexion
           </Link>
         </p>
