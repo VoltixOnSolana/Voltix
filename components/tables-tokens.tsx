@@ -1,5 +1,5 @@
 "use client"
-import { initCron } from "@/utils/init";
+import { useTokens } from '@/contexts/TokenContext';
 import {
     Table,
     TableHeader,
@@ -9,7 +9,6 @@ import {
     TableCell,
     getKeyValue,
 } from "@heroui/react";
-import { useEffect, useState } from "react";
 
 const columnsActifUser = [
     {
@@ -22,7 +21,7 @@ const columnsActifUser = [
     },
     {
         key: "price",
-        label: "Prix",
+        label: "Valeur",
     },
 ];
 
@@ -66,82 +65,61 @@ interface TableTokensProps {
         amount: number;
         price: number;
     }[]
-    tokensFromDb?: {
-        id: number;
-        symbol: string;
-        name: string;
-        price: number;
-        marketCap: number;
-        supply: number;
-    }[]
 }
 
 function formatPrice(value: number): string {
-    if (value <= 1) {
-        return value.toLocaleString('fr-FR', { minimumFractionDigits: 3, maximumFractionDigits: 3 }).replace(/\s/g, "'");
+    if (value < 1) {
+        return value.toLocaleString('fr-FR', { minimumFractionDigits: 3, maximumFractionDigits: 7 }).replace(/\s/g, "'");
     }
     return value.toLocaleString('fr-FR', { maximumFractionDigits: 0 }).replace(/\s/g, "'");
 }
 
-export function TablesTokens({ isActifUser, tokensFromUser, tokensFromDb }: TableTokensProps) {
-    // Initialise les tokens avec les données initiales
-    const initialTokens = isActifUser && tokensFromUser
-        ? tokensFromUser.sort((a, b) => b.amount - a.amount)
-        : tokensFromDb?.sort((a, b) => a.id - b.id) || [];
+export function TablesTokens({ isActifUser, tokensFromUser }: TableTokensProps) {
+    const { tokens: marketTokens } = useTokens();
 
-    // État local pour stocker les tokens
-    const [tokens, setTokens] = useState<CommonToken[]>(initialTokens);
+    // Combiner les données utilisateur avec les prix du marché
+    const displayTokens: CommonToken[] = isActifUser
+        ? (tokensFromUser?.map(userToken => {
+            const marketToken = marketTokens.find(t => t.symbol === userToken.symbol);
+            return {
+                ...userToken,
+                price: marketToken?.price || userToken.price
+            };
+        }) ?? [])
+        : marketTokens;
+
     const columns = isActifUser ? columnsActifUser : columnsDb;
-    console.log("Je suis les columns", columns);
-    useEffect(() => {
-        // Première mise à jour immédiate
-        initCron().then((updatedTokens) => {
-            if (updatedTokens && updatedTokens.length > 0) {
-                // Maintient l'ordre initial des tokens
-                setTokens(updatedTokens.sort((a: CommonToken, b: CommonToken) => {
-                    const initialIndexA = initialTokens.findIndex(token => token.symbol === a.symbol);
-                    const initialIndexB = initialTokens.findIndex(token => token.symbol === b.symbol);
-                    return initialIndexA - initialIndexB;
-                }));
-            }
-        });
 
-        // Met en place un intervalle pour mettre à jour les prix toutes les 30 secondes
-        const intervalId = setInterval(() => {
-            initCron().then((updatedTokens) => {
-                if (updatedTokens && updatedTokens.length > 0) {
-                    setTokens(updatedTokens.sort((a: CommonToken, b: CommonToken) => {
-                        const initialIndexA = initialTokens.findIndex(token => token.symbol === a.symbol);
-                        const initialIndexB = initialTokens.findIndex(token => token.symbol === b.symbol);
-                        return initialIndexA - initialIndexB;
-                    }));
-                }
-            });
-        }, 30000);
-
-        // Nettoie l'intervalle quand le composant est démonté
-        return () => clearInterval(intervalId);
-    }, []);
+    // Tri des tokens
+    if (isActifUser && displayTokens) {
+        displayTokens.sort((a, b) => (b.amount ?? 0) * (b.price ?? 0) - (a.amount ?? 0) * (a.price ?? 0));
+    } else if (displayTokens) {
+        displayTokens.sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
+    }
 
     return (
         <div className="px-10 py-4">
-            <h1 className="text-2xl font-bold p-4">{isActifUser ? "Vos cryptos" : "Marché crypto en direct"}</h1>
-            <Table className="" aria-label={isActifUser ? "Spot token of user" : "Market token"}>
+            <h1 className="text-2xl font-bold p-4">
+                {isActifUser ? "Vos cryptos" : "Marché crypto en direct"}
+            </h1>
+            <Table aria-label={isActifUser ? "Spot token of user" : "Market token"}>
                 <TableHeader columns={columns}>
                     {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
                 </TableHeader>
-                <TableBody items={tokens} emptyContent={
+                <TableBody items={displayTokens} emptyContent={
                     <div>
-                        <p>Vous n'avez aucune crypto</p>
+                        <p>Aucune crypto disponible</p>
                     </div>
                 }>
                     {(item) => (
                         <TableRow key={item.symbol}>
                             {(columnKey) => (
                                 <TableCell>
-                                    {columnKey === "price"
+                                    {columnKey === "price" && !isActifUser
                                         ? formatPrice(item.price) + " €"
-                                        : getKeyValue(item, columnKey)}
+                                        : isActifUser && columnKey === "price"
+                                            ? formatPrice(item.price * (item.amount ?? 0)) + " €"
+                                            : getKeyValue(item, columnKey)}
                                 </TableCell>
                             )}
                         </TableRow>
@@ -149,5 +127,5 @@ export function TablesTokens({ isActifUser, tokensFromUser, tokensFromDb }: Tabl
                 </TableBody>
             </Table>
         </div>
-    )
+    );
 }

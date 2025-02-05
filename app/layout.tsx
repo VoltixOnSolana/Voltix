@@ -4,6 +4,7 @@ import { Providers } from "./provider";
 import NavbarLayout from "@/components/navbar-layout";
 import FooterLayout from "@/components/footer-layout";
 import { createClient } from "@/utils/supabase/server";
+import { TokenProvider } from '@/contexts/TokenContext';
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -33,9 +34,11 @@ export default async function RootLayout({
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
       <body suppressHydrationWarning className="bg-gray-900 text-white h-full">
         <Providers>
-          <NavbarLayout user={user} />
-          {children}
-          <FooterLayout />
+          <TokenProvider>
+            <NavbarLayout user={user} />
+            {children}
+            <FooterLayout />
+          </TokenProvider>
         </Providers>
       </body>
     </html>
