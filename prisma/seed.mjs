@@ -20,7 +20,15 @@ async function main() {
   ];
 
   const users = await Promise.all(
-    usersData.map(user => prisma.user.create({ data: user }))
+    usersData.map(async user => {
+      const existingUser = await prisma.user.findUnique({
+        where: { email: user.email },
+      });
+      if (!existingUser) {
+        return prisma.user.create({ data: user });
+      }
+      return existingUser;
+    })
   );
 
   // Seed Transactions

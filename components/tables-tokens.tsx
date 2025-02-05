@@ -60,11 +60,7 @@ interface CommonToken {
 
 interface TableTokensProps {
     isActifUser: boolean;
-    tokensFromUser?: {
-        symbol: string;
-        amount: number;
-        price: number;
-    }[]
+    tokensFromUser?: CommonToken[]
 }
 
 function formatPrice(value: number): string {

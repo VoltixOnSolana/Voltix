@@ -19,18 +19,37 @@ import NumberTicker from "./ui/number-ticker"
 import { Button } from "@heroui/react"
 import Link from "next/link"
 import { paths } from "@/paths"
+import { useTokens } from "@/contexts/TokenContext"
 
 // Définition de l'interface pour les propriétés du composant
+interface CommonToken {
+  symbol: string;
+  price: number;
+  amount?: number; // Optionnel pour les tokens de la base de données
+  id?: number; // Optionnel pour les tokens de l'utilisateur
+  name?: string;
+  marketCap?: number;
+  supply?: number;
+}
 interface ChartActifUserProps {
-  rows: {
-    date: string;
-    amount: number;
-  }[],
+  rows: CommonToken[]
   idUser: string
 }
 
 // Composant principal pour afficher le graphique de l'actif utilisateur
 export function ChartActifUser({ rows, idUser }: ChartActifUserProps) {
+  const { tokens: marketTokens } = useTokens();
+
+  // Calcul du montant total en utilisant les prix actuels du marché
+  const totalAmount = rows.reduce((acc, row) => {
+    // Trouver le prix actuel du marché pour ce token
+    const marketToken = marketTokens.find(t => t.symbol === row.symbol);
+    // Utiliser le prix du marché s'il existe, sinon utiliser le prix stocké
+    const currentPrice = marketToken?.price || row.price;
+    // Calculer la valeur totale pour ce token (quantité × prix actuel)
+    return acc + ((row.amount ?? 0) * currentPrice);
+  }, 0);
+
   // Transformation des données pour le graphique
   let chartData = rows.map((row) => ({
     date: row.date,
@@ -84,7 +103,7 @@ export function ChartActifUser({ rows, idUser }: ChartActifUserProps) {
   return (
     <Card className="bg-[#18181b] border-gray-800 p-4 max-h-[500px]">
       <CardHeader>
-        <CardTitle>Votre actif total : <NumberTicker value={rows[rows.length - 1].amount} /> €</CardTitle>
+        <CardTitle>Votre actif total : <NumberTicker value={totalAmount} /> €</CardTitle>
         <CardDescription>Sur les 7 derniers jours</CardDescription>
         <Button
           color="primary"
