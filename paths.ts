@@ -9,4 +9,6 @@ export const paths = {
     userAccount: (id: string) => `/user/${id}/account`,
     userDeposit: (id: string) => `/user/${id}/deposit`,
     userSettings: (id: string) => `/user/${id}/settings`,
+    userCancel: (id: string) => `/user/${id}/deposit/cancel/page.tsx`,
+    userSucess: (id: string) => `/user/${id}/deposit/sucess/page.tsx`,
 }
