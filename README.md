@@ -38,3 +38,17 @@ Ce projet est un template pour démarrer rapidement avec Next.js et Supabase. Il
 ## Déploiement
 
 Pour déployer votre application, utilisez la commande suivante :
+
+## URL de Production
+
+L'application est déployée à l'URL suivante : [Voltix Production](https://voltix-phi.vercel.app/)
+
+## Lancer le Seed
+
+Pour initialiser la base de données avec des données de test, exécutez la commande suivante :
+
+```bash
+npm run seed
+```
+
+Assurez-vous que votre base de données est correctement configurée avant de lancer cette commande.

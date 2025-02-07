@@ -1,44 +1,44 @@
 "use client"
 import React from "react";
 import { FlipWords } from "@/components/ui/flip-words";
-import { Button, Image, Input } from "@heroui/react";
+import { Button, Input } from "@heroui/react";
 import Link from "next/link";
 import { ChartHero } from "./ui/chart-hero";
 
 const btcData = [
-    { day: "Lun", price: 19000 },
-    { day: "Mar", price: 37000 },
-    { day: "Mer", price: 10000 },
-    { day: "Jeu", price: 48000 },
-    { day: "Ven", price: 50000 },
-    { day: "Sam", price: 52000 },
+    { day: "Lun", price: 101000 },
+    { day: "Mar", price: 106000 },
+    { day: "Mer", price: 97000 },
+    { day: "Jeu", price: 95000 },
+    { day: "Ven", price: 100000 },
+    { day: "Sam", price: 108000 },
 ]
 
 const ethData = [
-    { day: "Lun", price: 19000 },
-    { day: "Mar", price: 37000 },
-    { day: "Mer", price: 10000 },
-    { day: "Jeu", price: 48000 },
-    { day: "Ven", price: 50000 },
-    { day: "Sam", price: 52000 },
+    { day: "Lun", price: 3000 },
+    { day: "Mar", price: 3700 },
+    { day: "Mer", price: 3500 },
+    { day: "Jeu", price: 3300 },
+    { day: "Ven", price: 3200 },
+    { day: "Sam", price: 3100 },
 ]
 
 const xrpData = [
-    { day: "Lun", price: 19000 },
-    { day: "Mar", price: 37000 },
-    { day: "Mer", price: 10000 },
-    { day: "Jeu", price: 48000 },
-    { day: "Ven", price: 50000 },
-    { day: "Sam", price: 52000 },
+    { day: "Lun", price: 1 },
+    { day: "Mar", price: 0.70 },
+    { day: "Mer", price: 0.60 },
+    { day: "Jeu", price: 2 },
+    { day: "Ven", price: 3.20 },
+    { day: "Sam", price: 2.80 },
 ]
 
 const suiData = [
-    { day: "Lun", price: 19000 },
-    { day: "Mar", price: 37000 },
-    { day: "Mer", price: 10000 },
-    { day: "Jeu", price: 48000 },
-    { day: "Ven", price: 50000 },
-    { day: "Sam", price: 52000 },
+    { day: "Lun", price: 1.90 },
+    { day: "Mar", price: 3.70 },
+    { day: "Mer", price: 1.00 },
+    { day: "Jeu", price: 4.80 },
+    { day: "Ven", price: 5.00 },
+    { day: "Sam", price: 5.20 },
 ]
 
 export function HeroSection() {
