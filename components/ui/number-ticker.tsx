@@ -11,6 +11,7 @@ export default function NumberTicker({
   className,
   decimalPlaces = 0,
   isPrimary = false,
+  isAccueil = false,
 }: {
   value: number;
   direction?: "up" | "down";
@@ -18,6 +19,7 @@ export default function NumberTicker({
   delay?: number;
   decimalPlaces?: number;
   isPrimary?: boolean;
+  isAccueil?: boolean;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [previousValue, setPreviousValue] = useState(value);
@@ -57,7 +59,7 @@ export default function NumberTicker({
         ref.current.textContent = Intl.NumberFormat("fr-FR", {
           minimumFractionDigits: decimalPlaces,
           maximumFractionDigits: decimalPlaces,
-        }).format(Number(latest.toFixed(decimalPlaces))) + " €";
+        }).format(Number(latest.toFixed(decimalPlaces))) + (isAccueil ? "" : " €");
       }
     });
   }, [springValue, decimalPlaces]);
