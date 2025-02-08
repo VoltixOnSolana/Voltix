@@ -36,7 +36,7 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
     const [buyUsdAmount, setBuyUsdAmount] = useState<string>("")
     const [sellUsdAmount, setSellUsdAmount] = useState<string>("")
 
-    const totalUsd = usd.USDT + usd.USDC;
+    const totalUsd = (usd.USDT || 0) + (usd.USDC || 0);
 
     // Calculs pour l'achat
     useEffect(() => {
@@ -71,7 +71,7 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                     <Tab key="buy" title="Achat">
                         <div className="flex flex-col gap-4">
                             <div className="text-sm text-gray-400">
-                                Solde disponible: <NumberTicker value={totalUsd} /> USD
+                                Solde disponible: {totalUsd.toFixed(4)} USD
                             </div>
                             <div className="space-y-2">
                                 <Input
@@ -101,7 +101,7 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                     <Tab key="sell" title="Vente">
                         <div className="flex flex-col gap-4">
                             <div className="text-sm text-gray-400">
-                                Solde disponible: <NumberTicker value={tokenBalance} isAccueil={true} /> {token.symbol}
+                                Solde disponible: {tokenBalance.toFixed(4)} {token.symbol}
                             </div>
                             <div className="space-y-2">
                                 <Input
