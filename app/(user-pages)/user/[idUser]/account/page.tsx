@@ -1,3 +1,5 @@
+'use server'
+
 import { TablesTokens } from "@/components/tables-tokens"
 import { getTokenOfUser } from "../action/userAccountAction"
 import { ChartUserAccount } from "@/components/chart-user-account"
