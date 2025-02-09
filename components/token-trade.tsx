@@ -11,11 +11,10 @@ import {
     Input,
     Tabs,
     Tab,
-    CardBody
+    Slider
 } from "@heroui/react"
 import { User } from "@supabase/supabase-js"
 import { useState, useEffect } from "react"
-import NumberTicker from "./ui/number-ticker"
 
 interface TokenTradeProps {
     token: {
@@ -35,26 +34,50 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
     const [sellAmount, setSellAmount] = useState<string>("")
     const [buyUsdAmount, setBuyUsdAmount] = useState<string>("")
     const [sellUsdAmount, setSellUsdAmount] = useState<string>("")
+    const [isBuySliderActive, setIsBuySliderActive] = useState(false);
+    const [isSellSliderActive, setIsSellSliderActive] = useState(false);
 
     const totalUsd = (usd.USDT || 0) + (usd.USDC || 0);
 
-    // Calculs pour l'achat
+    // Synchronisation des valeurs pour l'achat
     useEffect(() => {
-        if (buyAmount) {
-            setBuyUsdAmount((Number(buyAmount) * token.price).toFixed(2))
-        } else if (buyUsdAmount) {
-            setBuyAmount((Number(buyUsdAmount) / token.price).toFixed(6))
+        if (isBuySliderActive) {
+            const calculatedBuyAmount = (Number(buyUsdAmount) / token.price).toFixed(6);
+            if (calculatedBuyAmount !== buyAmount) {
+                setBuyAmount(calculatedBuyAmount);
+            }
+            setIsBuySliderActive(false);
         }
-    }, [buyAmount, buyUsdAmount, token.price])
+    }, [buyUsdAmount, token.price, isBuySliderActive]);
 
-    // Calculs pour la vente
     useEffect(() => {
-        if (sellAmount) {
-            setSellUsdAmount((Number(sellAmount) * token.price).toFixed(2))
-        } else if (sellUsdAmount) {
-            setSellAmount((Number(sellUsdAmount) / token.price).toFixed(6))
+        if (!isBuySliderActive) {
+            const calculatedBuyUsdAmount = (Number(buyAmount) * token.price).toFixed(2);
+            if (calculatedBuyUsdAmount !== buyUsdAmount) {
+                setBuyUsdAmount(calculatedBuyUsdAmount);
+            }
         }
-    }, [sellAmount, sellUsdAmount, token.price])
+    }, [buyAmount, token.price, isBuySliderActive]);
+
+    // Synchronisation des valeurs pour la vente
+    useEffect(() => {
+        if (isSellSliderActive) {
+            const calculatedSellUsdAmount = (Number(sellAmount) * token.price).toFixed(2);
+            if (calculatedSellUsdAmount !== sellUsdAmount) {
+                setSellUsdAmount(calculatedSellUsdAmount);
+            }
+            setIsSellSliderActive(false);
+        }
+    }, [sellAmount, token.price, isSellSliderActive]);
+
+    useEffect(() => {
+        if (!isSellSliderActive) {
+            const calculatedSellAmount = (Number(sellUsdAmount) / token.price).toFixed(6);
+            if (calculatedSellAmount !== sellAmount && !isNaN(Number(calculatedSellAmount))) {
+                setSellAmount(calculatedSellAmount);
+            }
+        }
+    }, [sellUsdAmount, token.price, isSellSliderActive]);
 
     const handleTrade = (type: 'buy' | 'sell') => {
         // TODO: Implémenter la logique d'achat/vente
@@ -62,7 +85,7 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
     }
 
     return (
-        <Card className="bg-[#18181b] border-gray-800">
+        <Card className="bg-[#18181b] border-gray-800 max-h-[400px] h-full">
             <CardHeader>
                 <CardTitle>Trader {token.symbol}</CardTitle>
             </CardHeader>
@@ -75,14 +98,42 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                             </div>
                             <div className="space-y-2">
                                 <Input
-                                    type="number"
                                     placeholder="Montant en USD"
                                     value={buyUsdAmount}
                                     onChange={(e) => setBuyUsdAmount(e.target.value)}
                                     isDisabled={!user}
                                 />
+                                <Slider
+                                    key={`${token.symbol}-buy`}
+                                    aria-label={`Montant en ${token.symbol}-buy`}
+                                    size="sm"
+                                    color="primary"
+                                    marks={[
+                                        {
+                                            value: totalUsd * 0.25,
+                                            label: "25%",
+                                        },
+                                        {
+                                            value: totalUsd * 0.5,
+                                            label: "50%",
+                                        },
+                                        {
+                                            value: totalUsd * 0.75,
+                                            label: "75%",
+                                        },
+                                    ]}
+                                    defaultValue={0}
+                                    maxValue={totalUsd}
+                                    minValue={0}
+                                    step={0.01}
+                                    onChange={(value) => {
+                                        setIsBuySliderActive(true);
+                                        setBuyUsdAmount(value.toString());
+                                    }}
+                                    isDisabled={!user}
+                                    className="pb-6"
+                                />
                                 <Input
-                                    type="number"
                                     placeholder={`Montant en ${token.symbol}`}
                                     value={buyAmount}
                                     onChange={(e) => setBuyAmount(e.target.value)}
@@ -92,7 +143,7 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                             <Button
                                 onPress={() => handleTrade('buy')}
                                 color="primary"
-                                isDisabled={!user || Number(buyUsdAmount) > totalUsd}
+                                isDisabled={!user || Number(buyUsdAmount) > totalUsd || Number(buyUsdAmount) <= 0}
                             >
                                 Acheter {token.symbol}
                             </Button>
@@ -105,14 +156,42 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                             </div>
                             <div className="space-y-2">
                                 <Input
-                                    type="number"
                                     placeholder={`Montant en ${token.symbol}`}
                                     value={sellAmount}
                                     onChange={(e) => setSellAmount(e.target.value)}
                                     isDisabled={!user}
                                 />
+                                                                <Slider
+                                    key={`${token.symbol}-sell`}
+                                    aria-label={`Montant en ${token.symbol}`}
+                                    className="pb-6"
+                                    size="sm"
+                                    color="danger"
+                                    defaultValue={0}
+                                    maxValue={tokenBalance}
+                                    minValue={0}
+                                    step={0.000001}
+                                    onChange={(value) => {
+                                        setIsSellSliderActive(true);
+                                        setSellAmount(value.toString());
+                                    }}
+                                    isDisabled={!user}
+                                    marks={[
+                                        {
+                                            value: tokenBalance * 0.25,
+                                            label: "25%",
+                                        },
+                                        {
+                                            value: tokenBalance * 0.5,
+                                            label: "50%",
+                                        },
+                                        {
+                                            value: tokenBalance * 0.75,
+                                            label: "75%",
+                                        },
+                                    ]}
+                                />
                                 <Input
-                                    type="number"
                                     placeholder="Montant en USD"
                                     value={sellUsdAmount}
                                     onChange={(e) => setSellUsdAmount(e.target.value)}
@@ -122,7 +201,7 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                             <Button
                                 onPress={() => handleTrade('sell')}
                                 color="danger"
-                                isDisabled={!user || Number(sellAmount) > tokenBalance}
+                                isDisabled={!user || Number(sellAmount) > tokenBalance || Number(sellAmount) <= 0}
                             >
                                 Vendre {token.symbol}
                             </Button>
