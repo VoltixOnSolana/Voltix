@@ -86,20 +86,10 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
     const handleTrade = async (type: 'buy' | 'sell') => {
         if (type === 'buy' && user) {
             const buyTokenAction = buyToken.bind(null, user.id, token.id, Number(buyAmount), token.price)
-            const res = await buyTokenAction()
-            if (res) {
-                setBuyAmount("0")
-                setBuyUsdAmount("0")
-                router.refresh()
-            }
+            await buyTokenAction()
         } else if (type === 'sell' && user) {
             const sellTokenAction = sellToken.bind(null, user.id, token.id, Number(sellAmount), token.price)
-            const res = await sellTokenAction()
-            if (res) {
-                setSellAmount("0")
-                setSellUsdAmount("0")
-                router.refresh()
-            }
+            await sellTokenAction()
         }
     }
 
@@ -109,7 +99,11 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
         handleTrade('buy');
         setTimeout(() => {
             setIsLoading(false);
-        }, 1000);
+            setBuyAmount("0")
+            setBuyUsdAmount("0")
+            setIsBuySliderActive(false);
+            router.refresh()
+        }, 2000);
     }
 
     const handleSell = (e: React.FormEvent<HTMLFormElement>) => {
@@ -118,7 +112,11 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
         handleTrade('sell');
         setTimeout(() => {
             setIsLoading(false);
-        }, 1000);
+            setSellAmount("0")
+            setSellUsdAmount("0")
+            setIsSellSliderActive(false);
+            router.refresh()
+        }, 2000);
     }
 
     return (
@@ -159,7 +157,7 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                                             label: "75%",
                                         },
                                     ]}
-                                    defaultValue={0}
+                                    value={Number(buyUsdAmount)}
                                     maxValue={totalUsd}
                                     minValue={0}
                                     step={0.01}
@@ -183,7 +181,7 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                                 isDisabled={!user || Number(buyUsdAmount) > totalUsd || Number(buyUsdAmount) <= 0 || isLoading}
                                 isLoading={isLoading}
                             >
-                                Acheter {token.symbol}
+                                {isLoading ? "Transation en cours..." : `Acheter ${token.symbol}`}
                             </Button>
                         </form>
                     </Tab>
@@ -205,7 +203,7 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                                     className="pb-6"
                                     size="sm"
                                     color="danger"
-                                    defaultValue={0}
+                                    value={Number(sellAmount)}
                                     maxValue={tokenBalance}
                                     minValue={0}
                                     step={0.000001}
@@ -242,7 +240,7 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                                 isDisabled={!user || Number(sellAmount) > tokenBalance || Number(sellAmount) <= 0 || isLoading}
                                 isLoading={isLoading}
                             >
-                                Vendre {token.symbol}
+                                {isLoading ? "Transation en cours..." : `Vendre ${token.symbol}`}
                             </Button>
                         </form>
                     </Tab>
