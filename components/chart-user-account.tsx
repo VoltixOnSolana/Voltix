@@ -39,8 +39,11 @@ export function ChartUserAccount({ rows }: ChartUserProps) {
         )
     }
 
-    // Trier les lignes par montant et prendre les 5 premiers
-    const sortedRows = rows.sort((a, b) => (b.amount * b.price) - (a.amount * a.price)).slice(0, 5)
+    // Filtrer les lignes pour exclure USDT et USDC
+    const filteredRows = rows.filter(row => row.symbol !== "USDT" && row.symbol !== "USDC");
+
+    // Trier les lignes filtrées par montant et prendre les 5 premiers
+    const sortedRows = filteredRows.sort((a, b) => (b.amount * b.price) - (a.amount * a.price)).slice(0, 5)
 
     // Préparer les données pour le graphique
     const chartData = sortedRows.map((row, index) => ({
