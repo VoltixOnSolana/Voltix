@@ -11,7 +11,7 @@ import {
     getKeyValue,
 } from "@heroui/react"; // Importation des composants de la bibliothèque @heroui/react
 import NumberTicker from './ui/number-ticker';
-import TableSkeleton from '@/app/(market-pages)/loading';
+import TableSkeleton from '@/app/(market-pages)/market/loading';
 
 // Définition des colonnes pour l'affichage des tokens de l'utilisateur
 const columnsActifUser = [
@@ -74,6 +74,8 @@ interface TableTokensProps {
 export function TablesTokens({ isActifUser, tokensFromUser }: TableTokensProps) {
     const { tokens: marketTokens, isLoading } = useTokens(); // Récupération des tokens du marché depuis le contexte
 
+
+
     // Combiner les données utilisateur avec les prix du marché
     const displayTokens: CommonToken[] = isActifUser
         ? (tokensFromUser?.map(userToken => {
@@ -94,7 +96,7 @@ export function TablesTokens({ isActifUser, tokensFromUser }: TableTokensProps) 
         displayTokens.sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
     }
 
-    if (isLoading && !isActifUser){
+    if (isLoading){
         return <TableSkeleton />
     }
 

@@ -20,7 +20,7 @@ import { Button } from "@heroui/react"
 import Link from "next/link"
 import { paths } from "@/paths"
 import { useTokens } from "@/contexts/TokenContext"
-import UserPageSkeleton from "@/app/(user-pages)/user/[idUser]/account/loading"
+import UserPageSkeleton from "@/app/(user-pages)/user/[idUser]/account/loading-actif"
 
 // Définition de l'interface pour les propriétés du composant
 interface CommonToken {

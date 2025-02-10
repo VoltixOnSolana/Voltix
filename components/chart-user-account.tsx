@@ -3,6 +3,8 @@
 import { Pie, PieChart } from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent } from "@/components/ui/chart"
+import { useTokens } from "@/contexts/TokenContext"
+import UserPageAccountSkeleton from "@/app/(user-pages)/user/[idUser]/account/loading-account"
 
 // Palette de violets : dégradé de violet en ajustant la luminosité
 const violetPalette = [
@@ -24,6 +26,11 @@ interface ChartUserProps {
 
 // Composant principal pour afficher le graphique de distribution des cryptos
 export function ChartUserAccount({rows}: ChartUserProps) {
+    const { tokens: marketTokens, isLoading } = useTokens();
+    if (isLoading) {
+        return <UserPageAccountSkeleton />
+    }
+
     // Si le tableau est vide, afficher un message
     if (rows.length === 0) {
         return (

@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import UserPageActifSkeleton from "./loading-actif";
+import TableSkeleton from "./loading";
 
 export default async function RootLayout({
   children,
@@ -9,8 +9,8 @@ export default async function RootLayout({
 
 
   return (
-    <Suspense fallback={<UserPageActifSkeleton />}>
-      {children}
+    <Suspense fallback={<TableSkeleton />}>
+        {children}
     </Suspense>
 
   );
