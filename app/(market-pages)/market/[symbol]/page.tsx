@@ -61,7 +61,7 @@ export default async function MarketPageDetail({ params }: { params: Promise<{ s
           {/* Statistiques du token */}
           <Card className="bg-[#18181b] border-gray-800">
             <CardHeader>
-              <CardTitle>Statistiques</CardTitle>
+              <CardTitle>Informations utiles</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex justify-between">

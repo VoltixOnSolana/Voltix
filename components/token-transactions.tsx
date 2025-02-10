@@ -49,7 +49,7 @@ export function TokenTransactions({ transactions }: TokenTransactionsProps) {
                     <TableHeader columns={columns}>
                         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
                     </TableHeader>
-                    <TableBody items={transactions} emptyContent={
+                    <TableBody items={transactions.slice(0, 7)} emptyContent={
                         <div>
                             <p>Aucune crypto disponible</p>
                         </div>
