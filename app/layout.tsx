@@ -5,6 +5,7 @@ import NavbarLayout from "@/components/navbar-layout";
 import FooterLayout from "@/components/footer-layout";
 import { createClient } from "@/utils/supabase/server";
 import { TokenProvider } from '@/contexts/TokenContext';
+import { Toaster } from "@/components/ui/toaster"
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -39,6 +40,7 @@ export default async function RootLayout({
             {children}
             <FooterLayout />
           </TokenProvider>
+          <Toaster />
         </Providers>
       </body>
     </html>

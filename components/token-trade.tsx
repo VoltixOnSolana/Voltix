@@ -17,6 +17,7 @@ import {
 import { User } from "@supabase/supabase-js"
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
+import { useToast } from "@/hooks/use-toast"
 
 interface TokenTradeProps {
     token: {
@@ -42,6 +43,8 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
     const [isLoading, setIsLoading] = useState(false);
     const totalUsd = (usd.USDT || 0) + (usd.USDC || 0);
     const router = useRouter();
+    const { toast } = useToast()
+
 
     // Synchronisation des valeurs pour l'achat
     useEffect(() => {
@@ -103,6 +106,10 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
             setBuyUsdAmount("0")
             setIsBuySliderActive(false);
             router.refresh()
+            toast({
+                title: "Transaction réussie",
+                description: "Vous avez acheté " + buyAmount + " " + token.symbol,
+            })
         }, 2000);
     }
 
@@ -116,6 +123,10 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
             setSellUsdAmount("0")
             setIsSellSliderActive(false);
             router.refresh()
+            toast({
+                title: "Transaction réussie",
+                description: "Vous avez vendu " + sellAmount + " " + token.symbol,
+            })
         }, 2000);
     }
 
