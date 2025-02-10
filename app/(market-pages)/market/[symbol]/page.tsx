@@ -46,7 +46,7 @@ export default async function MarketPageDetail({ params }: { params: Promise<{ s
 
   return (
     <Suspense fallback={<LoadingMarketPage />}>
-      <div className="container mx-auto p-4 space-y-6">
+      <div className="mx-auto p-4 space-y-6 h-full mt-10 min-h-screen">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Graphique principal */}
           <div className="lg:col-span-2">

@@ -1,5 +1,6 @@
 "use client"
 
+import { buyToken, sellToken } from "@/app/(market-pages)/action/marketAction"
 import {
     Card,
     CardContent,
@@ -20,6 +21,7 @@ interface TokenTradeProps {
     token: {
         symbol: string;
         price: number;
+        id: number;
     }
     user: User | null
     usd: {
@@ -36,7 +38,7 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
     const [sellUsdAmount, setSellUsdAmount] = useState<string>("")
     const [isBuySliderActive, setIsBuySliderActive] = useState(false);
     const [isSellSliderActive, setIsSellSliderActive] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(false);
     const totalUsd = (usd.USDT || 0) + (usd.USDC || 0);
 
     // Synchronisation des valeurs pour l'achat
@@ -79,9 +81,35 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
         }
     }, [sellUsdAmount, token.price, isSellSliderActive]);
 
-    const handleTrade = (type: 'buy' | 'sell') => {
+    const handleTrade = async (type: 'buy' | 'sell') => {
         // TODO: Implémenter la logique d'achat/vente
-        console.log(`${type} ${type === 'buy' ? buyAmount : sellAmount} ${token.symbol} at ${token.price}€`)
+        if (type === 'buy' && user) {
+            const buyTokenAction = buyToken.bind(null, user.id, token.id, Number(buyAmount), token.price)
+            const res = await buyTokenAction()
+            console.log(res)
+        } else if (type === 'sell' && user) {
+            const sellTokenAction = sellToken.bind(null, user.id, token.id, Number(sellAmount), token.price)
+            const res = await sellTokenAction()
+            console.log(res)
+        }
+    }
+
+    const handleBuy = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsLoading(true);
+        handleTrade('buy');
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1000);
+    }
+
+    const handleSell = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsLoading(true);
+        handleTrade('sell');
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1000);
     }
 
     return (
@@ -91,8 +119,8 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
             </CardHeader>
             <CardContent>
                 <Tabs aria-label="Options">
-                    <Tab key="buy" title="Achat">
-                        <div className="flex flex-col gap-4">
+                    <Tab key="buy" title="Achat" isDisabled={isLoading}>
+                        <form onSubmit={handleBuy} className="flex flex-col gap-4">
                             <div className="text-sm text-gray-400">
                                 Solde disponible: {totalUsd.toFixed(4)} USD
                             </div>
@@ -141,16 +169,17 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                                 />
                             </div>
                             <Button
-                                onPress={() => handleTrade('buy')}
                                 color="primary"
-                                isDisabled={!user || Number(buyUsdAmount) > totalUsd || Number(buyUsdAmount) <= 0}
+                                type="submit"
+                                isDisabled={!user || Number(buyUsdAmount) > totalUsd || Number(buyUsdAmount) <= 0 || isLoading}
+                                isLoading={isLoading}
                             >
                                 Acheter {token.symbol}
                             </Button>
-                        </div>
+                        </form>
                     </Tab>
                     <Tab key="sell" title="Vente">
-                        <div className="flex flex-col gap-4">
+                        <form onSubmit={handleSell} className="flex flex-col gap-4">
                             <div className="text-sm text-gray-400">
                                 Solde disponible: {tokenBalance.toFixed(4)} {token.symbol}
                             </div>
@@ -161,7 +190,7 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                                     onChange={(e) => setSellAmount(e.target.value)}
                                     isDisabled={!user}
                                 />
-                                                                <Slider
+                                <Slider
                                     key={`${token.symbol}-sell`}
                                     aria-label={`Montant en ${token.symbol}`}
                                     className="pb-6"
@@ -199,13 +228,14 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                                 />
                             </div>
                             <Button
-                                onPress={() => handleTrade('sell')}
                                 color="danger"
-                                isDisabled={!user || Number(sellAmount) > tokenBalance || Number(sellAmount) <= 0}
+                                type="submit"
+                                isDisabled={!user || Number(sellAmount) > tokenBalance || Number(sellAmount) <= 0 || isLoading}
+                                isLoading={isLoading}
                             >
                                 Vendre {token.symbol}
                             </Button>
-                        </div>
+                        </form>
                     </Tab>
                 </Tabs>
             </CardContent>

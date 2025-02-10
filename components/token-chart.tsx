@@ -37,8 +37,8 @@ export function TokenChart({ token }: TokenChartProps) {
     const [priceChange, setPriceChange] = useState(0);
 
     useEffect(() => {
-        setPriceChange(token.priceLastDay 
-            ? ((token.price - token.priceLastDay) / token.priceLastDay) * 100 
+        setPriceChange(token.priceLastDay
+            ? ((token.price - token.priceLastDay) / token.priceLastDay) * 100
             : 0);
     }, [token.price])
     // Création des données du graphique sur 7 jours
@@ -61,7 +61,7 @@ export function TokenChart({ token }: TokenChartProps) {
     } satisfies ChartConfig
 
     return (
-        <Card className="bg-[#18181b] border-gray-800 p-4 max-h-[400px]">
+        <Card className="bg-[#18181b] border-gray-800 p-4 max-h-[400px] h-full">
             <CardHeader>
                 <CardTitle>
                     <div className="flex flex-col gap-2">
@@ -77,7 +77,7 @@ export function TokenChart({ token }: TokenChartProps) {
                 <CardDescription>Sur les 7 derniers jours</CardDescription>
             </CardHeader>
             <CardContent>
-                <ChartContainer config={chartConfig} className="h-[200px] w-full">
+                <ChartContainer config={chartConfig} className="h-[220px] w-full">
                     <LineChart
                         data={chartData}
                         margin={{

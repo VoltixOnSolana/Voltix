@@ -28,7 +28,7 @@ const columns = [
 
 interface Transaction {
     id: string;
-    type: 'buy' | 'sell' | string;
+    type: string;
     amount: number;
     price: number;
     createdAt: Date;
@@ -45,33 +45,35 @@ export function TokenTransactions({ transactions }: TokenTransactionsProps) {
                 <CardTitle>Transactions récentes</CardTitle>
             </CardHeader>
             <CardContent>
-            <Table aria-label="Transactions récentes" isStriped>
-                <TableHeader columns={columns}>
-                    {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-                </TableHeader>
-                <TableBody items={transactions} emptyContent={
-                    <div>
-                        <p>Aucune crypto disponible</p>
-                    </div>
-                }>
-                    {(item) => (
-                        <TableRow style={{ cursor: 'pointer' }} key={item.id}>
-                            {(columnKey) => (
-                                <TableCell>
-                                    {columnKey === "price"
-                                        ? <NumberTicker value={item.price} isPrimary={false} />
-                                        : columnKey === "createdAt"
-                                            ? formatDistance(new Date(item.createdAt), new Date(), {
-                                                addSuffix: true,
-                                                locale: fr
-                                            })
-                                            : getKeyValue(item, columnKey)}
-                                </TableCell>
-                            )}
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
+                <Table aria-label="Transactions récentes" isStriped>
+                    <TableHeader columns={columns}>
+                        {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+                    </TableHeader>
+                    <TableBody items={transactions} emptyContent={
+                        <div>
+                            <p>Aucune crypto disponible</p>
+                        </div>
+                    }>
+                        {(item) => (
+                            <TableRow key={item.id}>
+                                {(columnKey) => (
+                                    <TableCell>
+                                        {columnKey === "price"
+                                            ? <NumberTicker value={item.price} isPrimary={false} />
+                                            : columnKey === "createdAt"
+                                                ? formatDistance(new Date(item.createdAt), new Date(), {
+                                                    addSuffix: true,
+                                                    locale: fr
+                                                })
+                                                : columnKey === "type"
+                                                    ? item.type === "buy" ? "Achat" : "Vente"
+                                                    : getKeyValue(item, columnKey)}
+                                    </TableCell>
+                                )}
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
             </CardContent>
         </Card>
     )
