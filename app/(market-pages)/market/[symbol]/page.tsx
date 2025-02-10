@@ -45,39 +45,37 @@ export default async function MarketPageDetail({ params }: { params: Promise<{ s
   }
 
   return (
-    <Suspense fallback={<LoadingMarketPage />}>
-      <div className="mx-auto p-4 space-y-6 h-full mt-10 min-h-screen">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Graphique principal */}
-          <div className="lg:col-span-2">
-            <TokenChart token={token} />
-          </div>
-          {/* Section trading */}
-          <div>
-            <TokenTrade token={token} user={user} usd={usd} tokenBalance={tokenBalance} />
-          </div>
+    <div className="mx-auto p-4 space-y-6 h-full mt-10 min-h-screen">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Graphique principal */}
+        <div className="lg:col-span-2">
+          <TokenChart token={token} />
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Statistiques du token */}
-          <Card className="bg-[#18181b] border-gray-800">
-            <CardHeader>
-              <CardTitle>Informations utiles</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between">
-                <span>Market Cap</span>
-                <NumberTicker value={token.marketCap} isAccueil={true} />
-              </div>
-              <div className="flex justify-between">
-                <span>Supply</span>
-                <NumberTicker value={token.supply} isAccueil={true} />
-              </div>
-            </CardContent>
-          </Card>
-          {/* Transactions récentes */}
-          <TokenTransactions transactions={transactions} />
+        {/* Section trading */}
+        <div>
+          <TokenTrade token={token} user={user} usd={usd} tokenBalance={tokenBalance} />
         </div>
       </div>
-    </Suspense>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Statistiques du token */}
+        <Card className="bg-[#18181b] border-gray-800">
+          <CardHeader>
+            <CardTitle>Informations utiles</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex justify-between">
+              <span>Market Cap</span>
+              <NumberTicker value={token.marketCap} isAccueil={true} />
+            </div>
+            <div className="flex justify-between">
+              <span>Supply</span>
+              <NumberTicker value={token.supply} isAccueil={true} />
+            </div>
+          </CardContent>
+        </Card>
+        {/* Transactions récentes */}
+        <TokenTransactions transactions={transactions} />
+      </div>
+    </div>
   )
 }
