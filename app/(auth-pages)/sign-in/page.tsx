@@ -1,3 +1,5 @@
+'use server'
+
 import { signInAction } from "@/app/(auth-pages)/actions/authActions";
 import { paths } from "@/paths";
 import { Button, Form, Input } from "@/utils/HeroUI";

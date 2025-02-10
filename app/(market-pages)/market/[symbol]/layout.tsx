@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import TableSkeleton from "./loading";
+import LoadingMarketPage from "./loading";
 
 export default async function RootLayout({
   children,
@@ -9,9 +9,8 @@ export default async function RootLayout({
 
 
   return (
-    <Suspense fallback={<TableSkeleton />}>
+    <Suspense fallback={<LoadingMarketPage />}>
         {children}
-        {/* <TableTokenSkeleton /> */}
     </Suspense>
 
   );

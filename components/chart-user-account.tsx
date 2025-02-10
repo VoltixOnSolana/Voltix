@@ -30,7 +30,6 @@ export function ChartUserAccount({rows}: ChartUserProps) {
     if (isLoading) {
         return <UserPageAccountSkeleton />
     }
-
     // Si le tableau est vide, afficher un message
     if (rows.length === 0) {
         return (
@@ -47,7 +46,7 @@ export function ChartUserAccount({rows}: ChartUserProps) {
     }
 
     // Trier les lignes par montant et prendre les 5 premiers
-    const sortedRows = rows.sort((a, b) => b.amount - a.amount).slice(0, 5)
+    const sortedRows = rows.sort((a, b) => (b.amount * b.price) - (a.amount * a.price)).slice(0, 5)
 
     // Préparer les données pour le graphique
     const chartData = sortedRows.map((row, index) => ({
@@ -55,7 +54,7 @@ export function ChartUserAccount({rows}: ChartUserProps) {
         amount: row.amount,
         fill: violetPalette[index % violetPalette.length], // Assigner une couleur de la palette
     }))
-    
+
     // Configurer le graphique avec des étiquettes et des couleurs
     const chartConfig: ChartConfig = sortedRows.reduce((config, row, index) => {
         config[row.symbol] = {

@@ -55,8 +55,8 @@ export function TokenProvider({ children }: { children: React.ReactNode }) {
         // Première mise à jour
         updateTokens();
 
-        // Mise à jour toutes les 30 secondes
-        const intervalId = setInterval(updateTokens, 30000);
+        // Mise à jour toutes les minutes
+        const intervalId = setInterval(updateTokens, 60000);
 
         // Nettoyage
         return () => clearInterval(intervalId);

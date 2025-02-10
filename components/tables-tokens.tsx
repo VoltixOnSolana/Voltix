@@ -12,7 +12,40 @@ import {
 } from "@heroui/react"; // Importation des composants de la bibliothèque @heroui/react
 import NumberTicker from './ui/number-ticker';
 import TableSkeleton from '@/app/(market-pages)/market/loading';
+import TableChartSkeleton from '../app/(user-pages)/user/[idUser]/account/loading-table-chart';
 
+import { Line, LineChart, ResponsiveContainer } from "recharts";
+import { useRouter } from 'next/navigation';
+
+// Composant pour le mini graphique
+function MiniChart({ token }: { token: any }) {
+    const chartData = [
+        { date: "J-7", price: token.priceLast7Days || token.price },
+        { date: "J-6", price: token.priceLast6Days || token.price },
+        { date: "J-5", price: token.priceLast5Days || token.price },
+        { date: "J-4", price: token.priceLast4Days || token.price },
+        { date: "J-3", price: token.priceLast3Days || token.price },
+        { date: "J-2", price: token.priceLast2Days || token.price },
+        { date: "J-1", price: token.priceLastDay || token.price },
+        { date: "J", price: token.price },
+    ];
+
+    return (
+        <div className="w-[100px] h-[20px]">
+            <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={chartData}>
+                    <Line
+                        type="natural"
+                        dataKey="price"
+                        stroke="hsl(270, 50%, 50%)"
+                        strokeWidth={2}
+                        dot={false}
+                    />
+                </LineChart>
+            </ResponsiveContainer>
+        </div>
+    );
+}
 // Définition des colonnes pour l'affichage des tokens de l'utilisateur
 const columnsActifUser = [
     {
@@ -33,23 +66,19 @@ const columnsActifUser = [
 const columnsDb = [
     {
         key: "symbol",
-        label: "Symbol",
+        label: "Symbole",
     },
     {
         key: "name",
-        label: "Name",
-    },
-    {
-        key: "marketCap",
-        label: "Market Cap",
-    },
-    {
-        key: "supply",
-        label: "Supply",
+        label: "Nom",
     },
     {
         key: "price",
-        label: "Price",
+        label: "Prix",
+    },
+    {
+        key: "chart",
+        label: "Évolution",
     },
 ];
 
@@ -62,6 +91,13 @@ interface CommonToken {
     name?: string;
     marketCap?: number;
     supply?: number;
+    priceLastDay?: number;
+    priceLast2Days?: number;
+    priceLast3Days?: number;
+    priceLast4Days?: number;
+    priceLast5Days?: number;
+    priceLast6Days?: number;
+    priceLast7Days?: number;
 }
 
 // Interface pour les propriétés du composant TableTokens
@@ -73,8 +109,7 @@ interface TableTokensProps {
 // Composant principal pour afficher les tokens
 export function TablesTokens({ isActifUser, tokensFromUser }: TableTokensProps) {
     const { tokens: marketTokens, isLoading } = useTokens(); // Récupération des tokens du marché depuis le contexte
-
-
+    const router = useRouter();
 
     // Combiner les données utilisateur avec les prix du marché
     const displayTokens: CommonToken[] = isActifUser
@@ -96,8 +131,11 @@ export function TablesTokens({ isActifUser, tokensFromUser }: TableTokensProps) 
         displayTokens.sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
     }
 
-    if (isLoading){
+    if (isLoading && !isActifUser){
         return <TableSkeleton />
+    }
+    else if (isLoading && isActifUser){
+        return <TableChartSkeleton />
     }
 
     return (
@@ -105,7 +143,7 @@ export function TablesTokens({ isActifUser, tokensFromUser }: TableTokensProps) 
             <h1 className="text-2xl font-bold p-4">
                 {isActifUser ? "Vos cryptos" : "Marché crypto en direct"}
             </h1>
-            <Table aria-label={isActifUser ? "Spot token of user" : "Market token"}>
+            <Table aria-label={isActifUser ? "Spot token of user" : "Market token"} isStriped>
                 <TableHeader columns={columns}>
                     {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
                 </TableHeader>
@@ -115,14 +153,19 @@ export function TablesTokens({ isActifUser, tokensFromUser }: TableTokensProps) 
                     </div>
                 }>
                     {(item) => (
-                        <TableRow key={item.symbol}>
+                        <TableRow style={{ cursor: 'pointer', transition: 'background-color 0.3s ease, transform 0.2s ease', }} key={item.symbol} 
+                        onClick={() => router.push(`/market/${item.symbol}`)}
+                        onMouseEnter={(e) => e.currentTarget.style.opacity = "0.8"} 
+                        onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}>
                             {(columnKey) => (
                                 <TableCell>
                                     {columnKey === "price" && !isActifUser
                                         ? <NumberTicker value={item.price} isPrimary={false} />
                                         : isActifUser && columnKey === "price"
                                             ? <NumberTicker value={item.price * (item.amount ?? 0)} isPrimary={false} />
-                                            : getKeyValue(item, columnKey)}
+                                            : columnKey === "chart" && !isActifUser
+                                                ? <MiniChart token={item} />
+                                                : getKeyValue(item, columnKey)}
                                 </TableCell>
                             )}
                         </TableRow>
