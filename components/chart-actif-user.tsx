@@ -87,7 +87,7 @@ export function ChartActifUser({ rows, idUser }: ChartActifUserProps) {
     return (
       <Card className="bg-[#18181b] border-gray-800 p-4 max-h-[500px] min-h-[200px]">
         <CardHeader>
-          <CardTitle>Votre actif total : <NumberTicker value={0} /> €</CardTitle>
+          <CardTitle>Votre actif total : <NumberTicker value={0}/></CardTitle>
           <Button
             color="primary"
             size="sm"
