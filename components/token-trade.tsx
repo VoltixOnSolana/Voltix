@@ -15,6 +15,7 @@ import {
     Slider
 } from "@heroui/react"
 import { User } from "@supabase/supabase-js"
+import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 
 interface TokenTradeProps {
@@ -40,6 +41,7 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
     const [isSellSliderActive, setIsSellSliderActive] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const totalUsd = (usd.USDT || 0) + (usd.USDC || 0);
+    const router = useRouter();
 
     // Synchronisation des valeurs pour l'achat
     useEffect(() => {
@@ -82,15 +84,22 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
     }, [sellUsdAmount, token.price, isSellSliderActive]);
 
     const handleTrade = async (type: 'buy' | 'sell') => {
-        // TODO: Implémenter la logique d'achat/vente
         if (type === 'buy' && user) {
             const buyTokenAction = buyToken.bind(null, user.id, token.id, Number(buyAmount), token.price)
             const res = await buyTokenAction()
-            console.log(res)
+            if (res) {
+                setBuyAmount("0")
+                setBuyUsdAmount("0")
+                router.refresh()
+            }
         } else if (type === 'sell' && user) {
             const sellTokenAction = sellToken.bind(null, user.id, token.id, Number(sellAmount), token.price)
             const res = await sellTokenAction()
-            console.log(res)
+            if (res) {
+                setSellAmount("0")
+                setSellUsdAmount("0")
+                router.refresh()
+            }
         }
     }
 

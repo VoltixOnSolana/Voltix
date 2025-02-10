@@ -52,13 +52,11 @@ export default async function MarketPageDetail({ params }: { params: Promise<{ s
           <div className="lg:col-span-2">
             <TokenChart token={token} />
           </div>
-
           {/* Section trading */}
           <div>
             <TokenTrade token={token} user={user} usd={usd} tokenBalance={tokenBalance} />
           </div>
         </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Statistiques du token */}
           <Card className="bg-[#18181b] border-gray-800">
@@ -76,7 +74,6 @@ export default async function MarketPageDetail({ params }: { params: Promise<{ s
               </div>
             </CardContent>
           </Card>
-
           {/* Transactions récentes */}
           <TokenTransactions transactions={transactions} />
         </div>
