@@ -11,6 +11,9 @@ import {
     getKeyValue,
 } from "@heroui/react"; // Importation des composants de la bibliothèque @heroui/react
 import NumberTicker from './ui/number-ticker';
+import TableSkeleton from '@/app/(market-pages)/market/loading-market-table';
+import TableChartSkeleton from '../app/(user-pages)/user/[idUser]/account/loading-table-chart';
+
 import { Line, LineChart, ResponsiveContainer } from "recharts";
 import { useRouter } from 'next/navigation';
 
@@ -43,7 +46,6 @@ function MiniChart({ token }: { token: any }) {
         </div>
     );
 }
-
 // Définition des colonnes pour l'affichage des tokens de l'utilisateur
 const columnsActifUser = [
     {
@@ -106,8 +108,9 @@ interface TableTokensProps {
 
 // Composant principal pour afficher les tokens
 export function TablesTokens({ isActifUser, tokensFromUser }: TableTokensProps) {
-    const { tokens: marketTokens } = useTokens(); // Récupération des tokens du marché depuis le contexte
+    const { tokens: marketTokens, isLoading } = useTokens(); // Récupération des tokens du marché depuis le contexte
     const router = useRouter();
+
     // Combiner les données utilisateur avec les prix du marché
     const displayTokens: CommonToken[] = isActifUser
         ? (tokensFromUser?.map(userToken => {
@@ -128,6 +131,10 @@ export function TablesTokens({ isActifUser, tokensFromUser }: TableTokensProps) 
         displayTokens.sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
     }
 
+    if (isLoading) {
+        return isActifUser ? <TableChartSkeleton /> : <TableSkeleton />;
+    }
+
     return (
         <div className="px-10 py-4">
             <h1 className="text-2xl font-bold p-4">
@@ -143,7 +150,10 @@ export function TablesTokens({ isActifUser, tokensFromUser }: TableTokensProps) 
                     </div>
                 }>
                     {(item) => (
-                        <TableRow style={{ cursor: 'pointer' }} key={item.symbol} onClick={() => router.push(`/market/${item.symbol}`)}>
+                        <TableRow style={{ cursor: 'pointer', transition: 'background-color 0.3s ease, transform 0.2s ease', }} key={item.symbol} 
+                        onClick={() => router.push(`/market/${item.symbol}`)}
+                        onMouseEnter={(e) => e.currentTarget.style.opacity = "0.8"} 
+                        onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}>
                             {(columnKey) => (
                                 <TableCell>
                                     {columnKey === "price" && !isActifUser

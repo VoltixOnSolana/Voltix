@@ -10,7 +10,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import NumberTicker from '@/components/ui/number-ticker'
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
-import LoadingMarketPage from './loading'
 
 export async function generateMetadata({ params }: { params: Promise<{ symbol: string }> }): Promise<Metadata> {
   const { symbol } = await params;
@@ -38,6 +37,7 @@ export default async function MarketPageDetail({ params }: { params: Promise<{ s
     usd = res;
     const userToken = await getUserTokenBalance(user.id, symbol);
     tokenBalance = userToken;
+    
   }
 
   if (!token) {
