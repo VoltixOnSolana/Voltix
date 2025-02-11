@@ -1,10 +1,9 @@
 import React from 'react'
 import { Skeleton, Card, CardHeader} from "@heroui/react";
 import {Spacer} from "@heroui/spacer";
-
 export default function LoadingMarketPage() {
   return (
-    <div className="container mx-auto p-4 space-y-6">
+    <div className="mx-auto p-4 space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Graphique principal */}
         <div className="lg:col-span-2 h-[400px]">
@@ -57,23 +56,8 @@ export default function LoadingMarketPage() {
         </Card>
 
         {/* Transactions récentes */}
-        
-        <Card className="w-full p-4 space-y-3 p-4">
-          <Skeleton className="h-10 w-[250px] space-y-20 rounded-lg bg-default-300" />
-          <Spacer y={7} />
-          <Card className="w-full p-4 space-y-3 p-4">
-            <Skeleton className="h-10 w-full rounded-lg bg-default-300" />
-            <div className="space-y-5">
-            {[...Array(4)].map((_, i) => (
-                <div key={i} className="flex space-x-2">
-                <Skeleton className="h-6 w-1/4 rounded-lg bg-default-200" />
-                <Skeleton className="h-6 w-2/4 rounded-lg bg-default-200" />
-                <Skeleton className="h-6 w-1/4 rounded-lg bg-default-300" />
-                <Skeleton className="h-6 w-2/4 rounded-lg bg-default-300" />
-                </div>
-            ))}
-            </div>
-          </Card>
+        <Card className="w-full h-64">
+          <Skeleton className="w-full h-full rounded-lg" />
         </Card>
       </div>
     </div>
