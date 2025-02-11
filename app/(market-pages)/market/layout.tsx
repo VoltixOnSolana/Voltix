@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import TableSkeleton from "./loading";
+import TableSkeleton from "./loading-market-table";
 
 export default async function RootLayout({
   children,
@@ -11,7 +11,6 @@ export default async function RootLayout({
   return (
     <Suspense fallback={<TableSkeleton />}>
         {children}
-        {/* <TableTokenSkeleton /> */}
     </Suspense>
 
   );

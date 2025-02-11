@@ -10,7 +10,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import NumberTicker from '@/components/ui/number-ticker'
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
-import LoadingMarketPage from './loading'
 
 export async function generateMetadata({ params }: { params: Promise<{ symbol: string }> }): Promise<Metadata> {
   const { symbol } = await params;
@@ -32,26 +31,21 @@ export default async function MarketPageDetail({ params }: { params: Promise<{ s
     USDC: 0
   };
   let tokenBalance = 0;
-  let isLoading = true;
 
   if (user) {
     const res = await getUserBalance(user.id) as { USDT: number, USDC: number };
     usd = res;
     const userToken = await getUserTokenBalance(user.id, symbol);
     tokenBalance = userToken;
-    isLoading = false; 
+    
   }
 
   if (!token) {
     return notFound();
   }
 
-  if (isLoading) {
-    return <LoadingMarketPage />;
-  }
   else {
     return (
-      // <Suspense fallback={<LoadingMarketPage />}>
         <div className="mx-auto p-4 space-y-6 h-full mt-10 min-h-screen">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Graphique principal */}
@@ -84,7 +78,6 @@ export default async function MarketPageDetail({ params }: { params: Promise<{ s
             <TokenTransactions transactions={transactions} />
           </div>
         </div>
-      // </Suspense>
     )
   }
 }

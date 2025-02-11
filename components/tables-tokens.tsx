@@ -11,7 +11,7 @@ import {
     getKeyValue,
 } from "@heroui/react"; // Importation des composants de la bibliothèque @heroui/react
 import NumberTicker from './ui/number-ticker';
-import TableSkeleton from '@/app/(market-pages)/market/loading';
+import TableSkeleton from '@/app/(market-pages)/market/loading-market-table';
 import TableChartSkeleton from '../app/(user-pages)/user/[idUser]/account/loading-table-chart';
 
 import { Line, LineChart, ResponsiveContainer } from "recharts";
@@ -131,11 +131,8 @@ export function TablesTokens({ isActifUser, tokensFromUser }: TableTokensProps) 
         displayTokens.sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
     }
 
-    if (isLoading && !isActifUser){
-        return <TableSkeleton />
-    }
-    else if (isLoading && isActifUser){
-        return <TableChartSkeleton />
+    if (isLoading) {
+        return isActifUser ? <TableChartSkeleton /> : <TableSkeleton />;
     }
 
     return (
