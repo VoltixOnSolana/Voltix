@@ -1,5 +1,11 @@
+import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
+
+const defaultUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
+
 
 // Initialise Stripe avec la clé privée
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
@@ -8,7 +14,8 @@ export async function POST(req: Request) {
   try {
     // Récupérer les données envoyées depuis le frontend
     const body = await req.json();
-
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
     // Créer une session de paiement Stripe
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'], // Méthodes de paiement
@@ -23,8 +30,8 @@ export async function POST(req: Request) {
         quantity: item.quantity, // Quantité
       })),
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`,
+      success_url: `${defaultUrl}/user/${user?.id}/deposit?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${defaultUrl}/user/${user?.id}/deposit`,
     });
 
     // Retourner l'ID de la session au frontend

@@ -3,6 +3,8 @@
 import { Pie, PieChart } from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent } from "@/components/ui/chart"
+import { useTokens } from "@/contexts/TokenContext"
+import UserPageAccountSkeleton from "@/app/(user-pages)/user/[idUser]/account/loading-account"
 
 // Palette de violets : dégradé de violet en ajustant la luminosité
 const violetPalette = [
@@ -24,6 +26,10 @@ interface ChartUserProps {
 
 // Composant principal pour afficher le graphique de distribution des cryptos
 export function ChartUserAccount({rows}: ChartUserProps) {
+    const { tokens: marketTokens, isLoading } = useTokens();
+    if (isLoading) {
+        return <UserPageAccountSkeleton />
+    }
     // Si le tableau est vide, afficher un message
     if (rows.length === 0) {
         return (
@@ -39,8 +45,11 @@ export function ChartUserAccount({rows}: ChartUserProps) {
         )
     }
 
-    // Trier les lignes par montant et prendre les 5 premiers
-    const sortedRows = rows.sort((a, b) => b.amount - a.amount).slice(0, 5)
+    // Filtrer les lignes pour exclure USDT et USDC
+    const filteredRows = rows.filter(row => row.symbol !== "USDT" && row.symbol !== "USDC");
+
+    // Trier les lignes filtrées par montant et prendre les 5 premiers
+    const sortedRows = filteredRows.sort((a, b) => (b.amount * b.price) - (a.amount * a.price)).slice(0, 5)
 
     // Préparer les données pour le graphique
     const chartData = sortedRows.map((row, index) => ({
@@ -48,7 +57,7 @@ export function ChartUserAccount({rows}: ChartUserProps) {
         amount: row.amount,
         fill: violetPalette[index % violetPalette.length], // Assigner une couleur de la palette
     }))
-    
+
     // Configurer le graphique avec des étiquettes et des couleurs
     const chartConfig: ChartConfig = sortedRows.reduce((config, row, index) => {
         config[row.symbol] = {

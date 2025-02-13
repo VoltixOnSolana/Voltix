@@ -7,35 +7,49 @@ interface TokenRow {
   symbol: string; // Symbole du token
   amount: number; // Quantité du token
   price: number;  // Prix du token au moment de la transaction
+  lastPrice: number;
+  lastPrice2: number;
+  lastPrice3: number;
+  lastPrice4: number;
+  lastPrice5: number;
+  lastPrice6: number;
+  lastPrice7: number;
 }
 
 // Fonction pour obtenir les tokens d'un utilisateur spécifique
 export async function getTokenOfUser(id: string) {
-  // Récupération des transactions de l'utilisateur depuis la base de données
   const transactions = await prisma.transaction.findMany({
     where: {
-      userId: id // Filtrer par identifiant utilisateur
+      userId: id
     },
     include: {
-      token: true // Inclure les informations sur le token
+      token: true
     }
   });
 
-  // Transformation des transactions en lignes de tokens
-  const tokenRows: TokenRow[] = transactions.map(tx => ({
-    symbol: tx.token.symbol,  // Symbole du token
-    amount: tx.amount,        // Quantité du token
-    price: tx.priceAtTransaction, // Prix au moment de la transaction
-    lastPrice: tx.token.priceLastDay,
-    lastPrice2: tx.token.priceLast2Days,
-    lastPrice3: tx.token.priceLast3Days,
-    lastPrice4: tx.token.priceLast4Days,
-    lastPrice5: tx.token.priceLast5Days,
-    lastPrice6: tx.token.priceLast6Days,
-    lastPrice7: tx.token.priceLast7Days
-  }));
+  // Grouper les transactions par symbole et calculer le solde total
+  const tokenBalances = transactions.reduce((acc, tx) => {
+    const symbol = tx.token.symbol;
+    if (!acc[symbol]) {
+      acc[symbol] = {
+        symbol,
+        amount: 0,
+        price: tx.token.price,
+        lastPrice: tx.token.priceLastDay,
+        lastPrice2: tx.token.priceLast2Days,
+        lastPrice3: tx.token.priceLast3Days,
+        lastPrice4: tx.token.priceLast4Days,
+        lastPrice5: tx.token.priceLast5Days,
+        lastPrice6: tx.token.priceLast6Days,
+        lastPrice7: tx.token.priceLast7Days
+      };
+    }
+    acc[symbol].amount += tx.amount;
+    return acc;
+  }, {} as Record<string, TokenRow>);
 
-  return tokenRows; // Retourner les lignes de tokens
+  // Convertir l'objet en tableau et filtrer les soldes nuls
+  return Object.values(tokenBalances).filter(token => token.amount !== 0);
 }
 
 // Fonction pour obtenir les transactions des 7 derniers jours pour un utilisateur

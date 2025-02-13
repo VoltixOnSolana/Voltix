@@ -20,6 +20,7 @@ import { Button } from "@heroui/react"
 import Link from "next/link"
 import { paths } from "@/paths"
 import { useTokens } from "@/contexts/TokenContext"
+import UserPageSkeleton from "@/app/(user-pages)/user/[idUser]/account/loading-actif"
 
 // Définition de l'interface pour les propriétés du composant
 interface CommonToken {
@@ -45,7 +46,7 @@ interface ChartActifUserProps {
 
 // Composant principal pour afficher le graphique de l'actif utilisateur
 export function ChartActifUser({ rows, idUser }: ChartActifUserProps) {
-  const { tokens: marketTokens } = useTokens();
+  const { tokens: marketTokens, isLoading } = useTokens();
 
   // Calcul du montant total actuel
   const totalAmount = rows.reduce((acc, row) => {
@@ -82,12 +83,16 @@ export function ChartActifUser({ rows, idUser }: ChartActifUserProps) {
     },
   } satisfies ChartConfig
 
+  if (isLoading){
+    return <UserPageSkeleton />
+  }
+
   // Si aucune donnée n'est disponible, afficher un message et un bouton
   if (rows.length === 0) {
     return (
       <Card className="bg-[#18181b] border-gray-800 p-4 max-h-[500px] min-h-[200px]">
         <CardHeader>
-          <CardTitle>Votre actif total : <NumberTicker value={0} /> €</CardTitle>
+          <CardTitle>Votre actif total : <NumberTicker value={0}/></CardTitle>
           <Button
             color="primary"
             size="sm"
@@ -103,7 +108,7 @@ export function ChartActifUser({ rows, idUser }: ChartActifUserProps) {
       </Card>
     )
   }
-
+  
   // Rendu du graphique avec les données disponibles
   return (
     <Card className="bg-[#18181b] border-gray-800 p-4 max-h-[500px]">

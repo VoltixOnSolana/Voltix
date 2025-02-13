@@ -11,6 +11,7 @@ export default function NumberTicker({
   className,
   decimalPlaces = 0,
   isPrimary = false,
+  isAccueil = false,
 }: {
   value: number;
   direction?: "up" | "down";
@@ -18,6 +19,7 @@ export default function NumberTicker({
   delay?: number;
   decimalPlaces?: number;
   isPrimary?: boolean;
+  isAccueil?: boolean;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [previousValue, setPreviousValue] = useState(value);
@@ -54,13 +56,17 @@ export default function NumberTicker({
   useEffect(() => {
     springValue.on("change", (latest) => {
       if (ref.current) {
-        ref.current.textContent = Intl.NumberFormat("fr-FR", {
-          minimumFractionDigits: decimalPlaces,
-          maximumFractionDigits: decimalPlaces,
-        }).format(Number(latest.toFixed(decimalPlaces))) + " €";
+        const formattedNumber = Number.isInteger(latest)
+          ? Intl.NumberFormat("fr-FR").format(latest)
+          : Intl.NumberFormat("fr-FR", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }).format(latest);
+
+        ref.current.textContent = formattedNumber + (isAccueil ? "" : " €");
       }
     });
-  }, [springValue, decimalPlaces]);
+  }, [springValue]);
 
   return (
     <span
