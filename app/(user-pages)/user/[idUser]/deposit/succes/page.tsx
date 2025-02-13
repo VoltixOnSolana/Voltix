@@ -1,9 +1,15 @@
+"use client"
 import { Button } from "@heroui/react";
-
+import { paths } from "@/paths";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function SuccessPage() {
+  const pathname = usePathname();
+  const idUser = pathname.split('/').slice(-3)[0];
+
   return (
-    <main className="flex-1 flex flex-col items-center justify-center p-6 bg-gray-900 text-white">
+    <main className="flex-1 flex flex-col items-center justify-center p-6 bg-gray-900 text-white h-screen">
       <div className="w-full max-w-md bg-gray-800 p-8 rounded-lg shadow-lg text-center space-y-6">
         {/* Success Icon */}
         <div className="flex justify-center text-green-500">
@@ -32,8 +38,8 @@ export default function SuccessPage() {
         {/* Back to Dashboard Button */}
         
         <Button
-          // as=""
-          // href=""
+          as={Link}
+          href={paths.userAccount(idUser)}
           color="primary" variant="solid"
         >
           Retour au tableau de bord
