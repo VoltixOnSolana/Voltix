@@ -3,7 +3,7 @@ import { useId } from "react";
 
 export default function FeaturesSection() {
     return (
-        <div className="py-10 lg:py-20">
+        <div className="py-10 lg:py-20 p-4">
             <h2 className="text-4xl font-bold text-center mb-10">Pourquoi nous choisir ?</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 md:gap-10 max-w-7xl mx-auto">
                 {grid.map((feature) => (
