@@ -7,9 +7,6 @@ export async function POST(req: Request) {
   try {
     const { name, email, message } = await req.json()
 
-    // console.log("Received data:", { name, email, message })
-    // console.log("RESEND_API_KEY:", process.env.RESEND_API_KEY ? "Set" : "Not set")
-
     if (!process.env.RESEND_API_KEY) {
       throw new Error("RESEND_API_KEY is not set")
     }
@@ -25,15 +22,12 @@ export async function POST(req: Request) {
       `,
     })
 
-    // console.log("Resend API response:", data)
-
-    return NextResponse.json(data)
+    return NextResponse.json({ success: true, data })
   } catch (error) {
-    console.error("Erreur dans la route de l'API :", error)
+    console.error("Erreur dans la route de l'API :", error)
     return NextResponse.json(
-      { error: "Échec de l'envoi de l'E-mail", details: error instanceof Error ? error.message : String(error) },
-      { status: 500 },
+      { success: false, error: "Échec de l'envoi de l'E-mail", details: error instanceof Error ? error.message : String(error) },
+      { status: 500 }
     )
   }
 }
-

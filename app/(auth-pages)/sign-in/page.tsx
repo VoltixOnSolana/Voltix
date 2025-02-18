@@ -4,6 +4,7 @@ import { signInAction } from "@/app/(auth-pages)/actions/authActions";
 import { paths } from "@/paths";
 import { Button, Form, Input } from "@/utils/HeroUI";
 import Link from "next/link";
+import { Send, RefreshCcw, Mail } from "lucide-react";
 
 export default async function Login() {
   return (
@@ -14,8 +15,9 @@ export default async function Login() {
     >
       <h1 className="text-2xl font-medium text-center">Se connecter</h1>
       <div className="flex flex-col gap-4 max-w-lg items-center justify-center">
-        <Input         
-        isRequired
+        <Input       
+          endContent={<Mail className="w-5 h-5" />}  
+          isRequired
           label="Email"
           labelPlacement="outside"
           name="email"
