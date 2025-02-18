@@ -1,6 +1,8 @@
+"use server"
+
 import ContactForm from '@/components/contact-form'
 
-export default function ContactPage() {
+export default async function ContactPage() {
   return (
     <div className="flex flex-col w-full h-screen space-y-4 items-center margin-bottom-128">
       <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Contactez-nous</h1>

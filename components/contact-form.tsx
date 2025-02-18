@@ -102,7 +102,7 @@ export default function ContactForm() {
         {...register("email")}
       />
       {errors.email && <p className="text-[12px] text-red-500">{errors.email.message}</p>}
-      <Spacer y={4} />
+      {/* <Spacer y={4} /> */}
       <Textarea
         endContent={
           isValidMessage ? (
@@ -119,14 +119,14 @@ export default function ContactForm() {
         {...register("message")}
       />
       {errors.message && <p className="text-[12px] text-red-500">{errors.message.message}</p>}
-      <Spacer y={4} />
+      {/* <Spacer y={4} /> */}
       <div className="flex gap-4 w-full">
         <Button className="w-full" color="primary" disabled={isSubmitting} type="submit">
           {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Envoyer <Send className="w-5 h-5" />
         </Button>
         <Button
-          type="button"
+          type="reset"
           onPress={resetForm}
           className="bg-primary text-primary-foreground hover:bg-red-500 hover:text-primary-foreground/90"
         >
