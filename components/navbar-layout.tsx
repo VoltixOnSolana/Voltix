@@ -64,7 +64,7 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
                 {/* Lien vers la page à propos */}
                 <NavbarItem isActive={isActive(paths.about())}>
                     <Link className="text-white" href={paths.about()}>
-                        A propos
+                        À propos
                     </Link>
                 </NavbarItem>
                 {/* Lien vers la page de contact */}
