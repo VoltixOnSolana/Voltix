@@ -149,9 +149,10 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                                     onChange={(e) => setBuyUsdAmount(e.target.value)}
                                     isDisabled={!user}
                                 />
-                                <Slider
-                                    key={`${token.symbol}-buy`}
-                                    aria-label={`Montant en ${token.symbol}-buy`}
+                                {totalUsd > 0 && (
+                                    <Slider
+                                        key={`${token.symbol}-buy`}
+                                        aria-label={`Montant en ${token.symbol}-buy`}
                                     size="sm"
                                     color="primary"
                                     marks={[
@@ -177,8 +178,9 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                                         setBuyUsdAmount(value.toString());
                                     }}
                                     isDisabled={!user}
-                                    className="pb-6"
-                                />
+                                        className="pb-6"
+                                    />
+                                )}
                                 <Input
                                     placeholder={`Montant en ${token.symbol}`}
                                     value={buyAmount}
@@ -208,12 +210,13 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                                     onChange={(e) => setSellAmount(e.target.value)}
                                     isDisabled={!user}
                                 />
-                                <Slider
-                                    key={`${token.symbol}-sell`}
-                                    aria-label={`Montant en ${token.symbol}`}
-                                    className="pb-6"
-                                    size="sm"
-                                    color="danger"
+                                {tokenBalance > 0 && (
+                                    <Slider
+                                        key={`${token.symbol}-sell`}
+                                        aria-label={`Montant en ${token.symbol}`}
+                                        className="pb-6"
+                                        size="sm"
+                                        color="danger"
                                     value={Number(sellAmount)}
                                     maxValue={tokenBalance}
                                     minValue={0}
@@ -236,8 +239,9 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
                                             value: tokenBalance * 0.75,
                                             label: "75%",
                                         },
-                                    ]}
-                                />
+                                        ]}
+                                    />
+                                )}
                                 <Input
                                     placeholder="Montant en USD"
                                     value={sellUsdAmount}

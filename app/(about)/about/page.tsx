@@ -4,7 +4,6 @@ import { Wallet, BarChart3, Shield, Coins, Twitter, Facebook, LinkedinIcon as Li
 import { Button } from "@/utils/HeroUI"
 import Image from "next/image"
 import { Spacer, Divider, Tabs, Tab, Card, CardBody } from "@heroui/react"
-import gio from "./GiovanniGoat.jpeg"
 
 
 
@@ -79,16 +78,6 @@ export default function About() {
       <section className="py-16 bg-background">
         <div className="container mx-auto ">
           <div className="flex flex-col md:flex-row items-center gap-8 ">
-            <div className="w-full md:w-1/3 ">
-              <Image
-                src={gio}
-                alt="Le boss"
-                width={400}
-                height={400}
-                className="rounded-lg shadow-lg"
-              />
-
-            </div>
             <Card className="w-full md:w-2/3 bg-card text-card-foreground">
               <CardContent className="p-6">
                 <h2 className="text-2xl font-bold mb-4">Message du PDG</h2>

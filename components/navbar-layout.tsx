@@ -10,12 +10,18 @@ import {
     NavbarMenuItem,
     NavbarItem,
     Link,
-    Button
+    Button,
+    DropdownItem,
+    DropdownTrigger,
+    Dropdown,
+    DropdownMenu,
 } from "@/utils/HeroUI";
 import { usePathname } from 'next/navigation';
 import { User } from '@supabase/supabase-js';
 import { signOutAction } from "@/app/(auth-pages)/actions/authActions"
 import { paths } from '@/paths';
+import { SearchBar } from './search-bar';
+import { ChevronDownIcon, CreditCard, DollarSign, LogOut, UserIcon } from 'lucide-react';
 
 // Définition des propriétés attendues par le composant NavbarLayout
 interface NavbarLayoutProps {
@@ -73,7 +79,9 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
                         Contact
                     </Link>
                 </NavbarItem>
+                <SearchBar />
             </NavbarContent>
+
             {!user ? (
                 <NavbarContent justify="end">
                     {/* Lien pour se connecter si l'utilisateur n'est pas connecté */}
@@ -88,23 +96,65 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
                     </NavbarItem>
                 </NavbarContent>
             ) : (
+
                 <NavbarContent justify="end">
-                    {/* Lien vers le compte utilisateur si l'utilisateur est connecté */}
-                    <NavbarItem className="hidden lg:flex">
-                        <Link className="text-white" href={paths.userAccount(user.id)}>Mon compte</Link>
-                    </NavbarItem>
-                    {/* Formulaire pour se déconnecter */}
-                    <NavbarItem className="hidden lg:flex">
-                        <form action={signOutAction}>
-                            <Button
-                                type="submit"
-                                size="lg"
-                                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground bg-primary text-primary-foreground hover:bg-red-500 hover:text-primary-foreground/90"
+                    <Dropdown>
+                        <NavbarItem>
+                            <DropdownTrigger>
+                                <Button
+                                    disableRipple
+                                    className="p-0 bg-transparent data-[hover=true]:bg-transparent"
+                                    endContent={<ChevronDownIcon />}
+                                    radius="sm"
+                                    variant="light"
+                                >
+                                    Mon compte
+                                </Button>
+                            </DropdownTrigger>
+                        </NavbarItem>
+                        <DropdownMenu
+                            aria-label="ACME features"
+                            itemClasses={{
+                                base: "gap-4",
+                            }}
+                        >
+                            <DropdownItem
+                                key="account"
+                                description="Voir vos informations de compte"
+                                startContent={<UserIcon />}
+                                href={paths.userAccount(user.id)}
                             >
-                                Déconnexion
-                            </Button>
-                        </form>
-                    </NavbarItem>
+                                Mon compte
+                            </DropdownItem>
+                            <DropdownItem
+                                key="deposit"
+                                description="Déposer des fonds sur votre compte"
+                                startContent={<DollarSign />}
+                                href={paths.userDeposit(user.id)}
+                            >
+                                Déposer
+                            </DropdownItem>
+                            <DropdownItem
+                                key="billing"
+                                description="Voir vos factures"
+                                startContent={<CreditCard />}
+                                href={paths.userBilling(user.id)}
+                            >
+                                Facturation
+                            </DropdownItem>
+                            <DropdownItem
+                                key="logout"
+                                description="Déconnexion de votre compte"
+                                startContent={<LogOut />}
+                            >
+                                <form action={signOutAction}>
+                                    <button type="submit" className="w-full">
+                                        Déconnexion
+                                    </button>
+                                </form>
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
                 </NavbarContent>
             )}
             {/* Menu de navigation pour les petits écrans */}
