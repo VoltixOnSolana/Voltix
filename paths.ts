@@ -8,5 +8,5 @@ export const paths = {
     marketDetails: (symbol: string) => `/market/${symbol}`,
     userAccount: (id: string) => `/user/${id}/account`,
     userDeposit: (id: string) => `/user/${id}/deposit`,
-    userSettings: (id: string) => `/user/${id}/settings`,
+    userBilling: (id: string) => `/user/${id}/billing`,
 }

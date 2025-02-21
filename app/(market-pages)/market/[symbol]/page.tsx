@@ -1,6 +1,5 @@
-'use server'
-
-import React, { Suspense } from 'react'
+"use server"
+import React from 'react'
 import type { Metadata } from 'next'
 import { getTokenBySymbol, getRecentTransactions, getUserTokenBalance, getUserBalance } from '../../action/marketAction'
 import { TokenChart } from '@/components/token-chart'
@@ -10,6 +9,29 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import NumberTicker from '@/components/ui/number-ticker'
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
+import { getTokenFromDb } from "@/app/(market-pages)/action/marketAction";
+
+
+export async function generateStaticParams() {
+  const tokens: { id: number; symbol: string; name: string; marketCap: number; supply: number, price: number }[] = await getTokenFromDb()
+  return tokens.map((token) => ({
+    symbol: token.symbol,
+    name: token.name,
+    id: token.id,
+    price: token.price,
+    marketCap: token.marketCap,
+    supply: token.supply,
+    priceLastDay: 0,
+    priceLast2Days: 0,
+    priceLast3Days: 0,
+    priceLast4Days: 0,
+    priceLast5Days: 0,
+    priceLast6Days: 0,
+    priceLast7Days: 0,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }))
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ symbol: string }> }): Promise<Metadata> {
   const { symbol } = await params;

@@ -16,6 +16,15 @@ interface TokenRow {
   lastPrice7: number;
 }
 
+export async function getUserBilling(id: string) {
+  const invoices = await prisma.invoice.findMany({
+    where: {
+      userId: id
+    }
+  })
+  return invoices
+}
+
 // Fonction pour obtenir les tokens d'un utilisateur spécifique
 export async function getTokenOfUser(id: string) {
   const transactions = await prisma.transaction.findMany({

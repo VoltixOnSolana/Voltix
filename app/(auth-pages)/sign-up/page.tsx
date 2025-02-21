@@ -6,6 +6,7 @@ import { Form, Input, Button } from "@/utils/HeroUI";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
+import { Mail, Lock, User } from "lucide-react";
 
 export default function Signup() {
   const [errors, setErrors] = React.useState<{ [key: string]: string }>({});
@@ -30,7 +31,7 @@ export default function Signup() {
     }
   }, [error]);
 
-    
+
 
   const getPasswordError = (value: string) => {
     if (value.length < 8) {
@@ -68,7 +69,7 @@ export default function Signup() {
 
   return (
     <Form
-      className="w-full h-screen justify-center items-center space-y-4 text-white"
+      className="w-96 mx-auto h-screen justify-center items-center space-y-4 text-white"
       validationBehavior="native"
       validationErrors={errors}
       onSubmit={onSubmit}
@@ -89,8 +90,9 @@ export default function Signup() {
             labelPlacement="outside"
             name="firstname"
             placeholder="Entrez votre prénom"
+            endContent={<User className="w-5 h-5" />}
           />
-                   <Input
+          <Input
             isRequired
             errorMessage={({ validationDetails }) => {
               if (validationDetails.valueMissing) {
@@ -103,6 +105,7 @@ export default function Signup() {
             labelPlacement="outside"
             name="lastname"
             placeholder="Entrez votre nom"
+            endContent={<User className="w-5 h-5" />}
           />
         </div>
         <Input
@@ -122,6 +125,7 @@ export default function Signup() {
           placeholder="Entrez votre email"
           type="email"
           onChange={e => setEmail(e.target.value)}
+          endContent={<Mail className="w-5 h-5" />}
         />
         <Input
           isRequired
@@ -134,10 +138,11 @@ export default function Signup() {
           type="password"
           value={password}
           onValueChange={setPassword}
+          endContent={<Lock className="w-5 h-5" />}
         />
         <div className="flex gap-4">
-          <Button className="w-full" color="primary" type="submit" isLoading={loading}>
-            S'inscrire
+          <Button className="w-full" color="primary" type="submit" isLoading={loading} isDisabled={loading} >
+            {loading ? "Inscription en cours..." : "S'inscrire"}
           </Button>
         </div>
         <p className="text-sm text-foreground">
