@@ -66,7 +66,7 @@ export function TokenTransactions({ transactions }: TokenTransactionsProps) {
                                                     locale: fr
                                                 })
                                                 : columnKey === "type"
-                                                    ? item.type === "buy" ? "Achat" : "Vente"
+                                                    ? item.type === "buy" || item.type === "purchase" ? "Achat" : "Vente"
                                                     : getKeyValue(item, columnKey)}
                                     </TableCell>
                                 )}
