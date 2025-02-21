@@ -77,7 +77,7 @@ export function HeroSection() {
     }, []);
 
     return (
-        <div className="h-[55rem] flex flex-col md:flex-row justify-center items-center px-4">
+        <div className="h-[34rem] flex flex-col md:flex-row justify-center items-center px-4">
             <div className="text-4xl mx-auto font-normal text-center md:text-left w-full md:w-1/2">
                 <div className="gradient-text py-2">Voltix</div>
                 <div className="text-gray-200">
