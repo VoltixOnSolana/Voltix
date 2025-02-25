@@ -2,7 +2,7 @@ import { FormData } from '@/lib/utils'
 
 export async function submitForm(data: FormData) {
   try {
-    const response = await fetch('/resend', {
+    const response = await fetch('/api/resend', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

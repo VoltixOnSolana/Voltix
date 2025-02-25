@@ -30,6 +30,7 @@ import enzo from "./images/enzo.png";
 import francisco from "./images/francisco.png";
 import giovanni from "./images/giovanni.png";
 import luca from "./images/luca.png";
+import { motion} from "framer-motion";
 
 const teamMembers = [
   {
@@ -75,9 +76,39 @@ export default function AboutPage() {
     trigger: "px-2 py-0 rounded-lg h-14 flex items-center",
     content: "text-medium px-2",
   };
+
+  // Animation variants
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const staggerChildren = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 md:px-6 py-12 md:py-24 lg:py-32 p-5">
-      <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+      <motion.div 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={fadeInUp}
+        className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]"
+      >
         <div className="flex flex-col justify-center space-y-4">
           <h1 className="text-4xl font-bold tracking-tighter sm:text-6xl xl:text-7xl text-[#EAEAEA]">
             À propos de Voltix
@@ -106,108 +137,122 @@ export default function AboutPage() {
             className="rounded-xl shadow-lg"
           />
         </div>
-      </div>
+      </motion.div>
+
       <Spacer y={12} />
       <Divider className="w-[50%] mx-auto" />
       <Spacer y={12} />
 
-      <Accordion
-        variant="light"
-        className="w-[65%] justify-center mx-auto"
-        itemClasses={itemClasses}
-        motionProps={{
-          variants: {
-            enter: {
-              y: 0,
-              opacity: 1,
-              height: "auto",
-              overflowY: "unset",
-              transition: {
-                height: {
-                  type: "spring",
-                  stiffness: 500,
-                  damping: 30,
-                  duration: 1,
-                },
-                opacity: {
-                  easings: "ease",
-                  duration: 1,
-                },
-              },
-            },
-            exit: {
-              y: -10,
-              opacity: 0,
-              height: 0,
-              overflowY: "hidden",
-              transition: {
-                height: {
-                  easings: "ease",
-                  duration: 0.25,
-                },
-                opacity: {
-                  easings: "ease",
-                  duration: 0.3,
-                },
-              },
-            },
-          },
-        }}
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={staggerChildren}
       >
-        <AccordionItem
-          key="1"
-          aria-label="accessibilite"
-          title="Accessibilité"
-          subtitle="Faciliter l'accès aux crypto-monnaies pour tous"
-          startContent={<EyeIcon className="text-green-500" />}
+        <Accordion
+          variant="light"
+          className="w-[65%] justify-center mx-auto"
+          itemClasses={itemClasses}
+          motionProps={{
+            variants: {
+              enter: {
+                y: 0,
+                opacity: 1,
+                height: "auto",
+                overflowY: "unset",
+                transition: {
+                  height: {
+                    type: "spring",
+                    stiffness: 500,
+                    damping: 30,
+                    duration: 1,
+                  },
+                  opacity: {
+                    easings: "ease",
+                    duration: 1,
+                  },
+                },
+              },
+              exit: {
+                y: -10,
+                opacity: 0,
+                height: 0,
+                overflowY: "hidden",
+                transition: {
+                  height: {
+                    easings: "ease",
+                    duration: 0.25,
+                  },
+                  opacity: {
+                    easings: "ease",
+                    duration: 0.3,
+                  },
+                },
+              },
+            },
+          }}
         >
-          Notre objectif est de rendre les crypto-monnaies accessibles à tous,
-          en simplifiant les processus d'achat, de vente et de gestion des
-          actifs numériques, afin que chacun puisse en bénéficier, quelle que
-          soit son expérience avec la technologie.
-        </AccordionItem>
-        <AccordionItem
-          key="2"
-          aria-label="innovation"
-          title="Innovation"
-          subtitle="Exploiter le potentiel de la blockchain au-delà des cryptos"
-          startContent={<TrendingUpIcon className="text-green-500" />}
-        >
-          Nous croyons en l'immense potentiel de la blockchain au-delà des
-          crypto-monnaies. Nous travaillons activement à intégrer cette
-          technologie dans des industries telles que la finance, la supply chain
-          et l'énergie pour offrir plus de transparence et d'efficacité.
-        </AccordionItem>
-        <AccordionItem
-          key="3"
-          aria-label="securite"
-          title="Sécurité"
-          subtitle="Protéger les transactions et les actifs numériques"
-          startContent={<ShieldCheckIcon className="text-green-500" />}
-        >
-          La sécurité des transactions est notre priorité. Nous développons des
-          solutions qui garantissent la protection des actifs tout en étant
-          capables de s'adapter aux évolutions rapides du marché des
-          crypto-monnaies et de la technologie blockchain.
-        </AccordionItem>
-        <AccordionItem
-          key="4"
-          aria-label="communaute"
-          title="Communauté"
-          subtitle="Créer un réseau de passionnés et d'experts"
-          startContent={<Users2Icon className="text-green-500" />}
-        >
-          Nous cherchons à rassembler les passionnés de crypto-monnaies du monde
-          entier, en créant une communauté solide et engagée qui partage des
-          connaissances, des idées et des ressources pour faire avancer
-          l'adoption de cette technologie.
-        </AccordionItem>
-      </Accordion>
+          <AccordionItem
+            key="1"
+            aria-label="accessibilite"
+            title="Accessibilité"
+            subtitle="Faciliter l'accès aux crypto-monnaies pour tous"
+            startContent={<EyeIcon className="text-green-500" />}
+          >
+            Notre objectif est de rendre les crypto-monnaies accessibles à tous,
+            en simplifiant les processus d'achat, de vente et de gestion des
+            actifs numériques, afin que chacun puisse en bénéficier, quelle que
+            soit son expérience avec la technologie.
+          </AccordionItem>
+          <AccordionItem
+            key="2"
+            aria-label="innovation"
+            title="Innovation"
+            subtitle="Exploiter le potentiel de la blockchain au-delà des cryptos"
+            startContent={<TrendingUpIcon className="text-green-500" />}
+          >
+            Nous croyons en l'immense potentiel de la blockchain au-delà des
+            crypto-monnaies. Nous travaillons activement à intégrer cette
+            technologie dans des industries telles que la finance, la supply chain
+            et l'énergie pour offrir plus de transparence et d'efficacité.
+          </AccordionItem>
+          <AccordionItem
+            key="3"
+            aria-label="securite"
+            title="Sécurité"
+            subtitle="Protéger les transactions et les actifs numériques"
+            startContent={<ShieldCheckIcon className="text-green-500" />}
+          >
+            La sécurité des transactions est notre priorité. Nous développons des
+            solutions qui garantissent la protection des actifs tout en étant
+            capables de s'adapter aux évolutions rapides du marché des
+            crypto-monnaies et de la technologie blockchain.
+          </AccordionItem>
+          <AccordionItem
+            key="4"
+            aria-label="communaute"
+            title="Communauté"
+            subtitle="Créer un réseau de passionnés et d'experts"
+            startContent={<Users2Icon className="text-green-500" />}
+          >
+            Nous cherchons à rassembler les passionnés de crypto-monnaies du monde
+            entier, en créant une communauté solide et engagée qui partage des
+            connaissances, des idées et des ressources pour faire avancer
+            l'adoption de cette technologie.
+          </AccordionItem>
+        </Accordion>
+      </motion.div>
 
       <Spacer y={12} />
       <Divider className="w-[50%] mx-auto" />
       <Spacer y={12} />
-      <div className="flex flex-col items-center space-y-4">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={fadeInUp}
+        className="flex flex-col items-center space-y-4"
+      >
         <div className="w-full md:w-2/3 flex items-center space-x-4">
           <User
             avatarProps={{
@@ -228,17 +273,17 @@ export default function AboutPage() {
               <i>
                 "Chez Voltix, nous ne nous contentons pas de suivre les
                 tendances – nous les créons. Depuis le premier jour, notre
-                mission a été de repousser les limites, d’innover et d’apporter
+                mission a été de repousser les limites, d'innover et d'apporter
                 des solutions qui transforment le quotidien de nos clients.
-                Notre engagement repose sur trois piliers : l’excellence,
-                l’innovation et la confiance. Chaque projet que nous menons est
-                guidé par ces valeurs, avec la volonté d’apporter une réelle
+                Notre engagement repose sur trois piliers : l'excellence,
+                l'innovation et la confiance. Chaque projet que nous menons est
+                guidé par ces valeurs, avec la volonté d'apporter une réelle
                 valeur ajoutée à ceux qui nous font confiance. Nous croyons en
-                un avenir où la technologie et l'humain avancent ensemble. C’est
+                un avenir où la technologie et l'humain avancent ensemble. C'est
                 cette vision qui nous pousse à donner le meilleur de nous-mêmes,
                 chaque jour, pour construire un monde plus performant et
                 accessible. Merci de faire partie de cette aventure.
-                <br /> L’histoire ne fait que commencer !"
+                <br /> L'histoire ne fait que commencer !"
               </i>
             </p>
             <p className="font-semibold">
@@ -246,32 +291,55 @@ export default function AboutPage() {
             </p>
           </CardContent>
         </Card>
-      </div>
+      </motion.div>
 
       <Spacer y={12} />
       <Divider className="w-[50%] mx-auto" />
       <Spacer y={12} />
 
-      <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-[#EAEAEA]">
+      <motion.h2
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={fadeInUp}
+        className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-[#EAEAEA]"
+      >
         Notre Équipe
-      </h2>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      </motion.h2>
+      
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={staggerChildren}
+        className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+      >
         {teamMembers.map((member) => (
-          <UserCard
+          <motion.div
             key={member.name}
-            name={member.name}
-            job={member.job}
-            email={member.email}
-            userPicture={member.picture}
-            className="bg-gray-900 text-white"
-          />
+            variants={fadeInUp}
+          >
+            <UserCard
+              name={member.name}
+              job={member.job}
+              email={member.email}
+              userPicture={member.picture}
+              className="bg-gray-900 text-white"
+            />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       <Spacer y={8} />
       <Divider className="w-[50%] mx-auto" />
       <Spacer y={8} />
-      <div className="container mx-auto text-center">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={fadeInUp}
+        className="container mx-auto text-center"
+      >
         <h2 className="text-2xl font-bold mb-6 text-muted-foreground">
           Nos réseaux
         </h2>
@@ -285,7 +353,7 @@ export default function AboutPage() {
             </Button>
           ))}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

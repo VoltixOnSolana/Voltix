@@ -107,6 +107,7 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
             setIsBuySliderActive(false);
             router.refresh()
             toast({
+                variant: "success",
                 title: "Transaction réussie",
                 description: "Vous avez acheté " + buyAmount + " " + token.symbol,
             })
@@ -124,6 +125,7 @@ export function TokenTrade({ token, user, usd, tokenBalance }: TokenTradeProps) 
             setIsSellSliderActive(false);
             router.refresh()
             toast({
+                variant: "success",
                 title: "Transaction réussie",
                 description: "Vous avez vendu " + sellAmount + " " + token.symbol,
             })

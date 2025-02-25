@@ -1,7 +1,6 @@
 "use server"
 import React from 'react'
 import type { Metadata } from 'next'
-import { getTokenBySymbol, getRecentTransactions, getUserTokenBalance, getUserBalance } from '../../action/marketAction'
 import { TokenChart } from '@/components/token-chart'
 import { TokenTrade } from '@/components/token-trade'
 import { TokenTransactions } from '@/components/token-transactions'
@@ -9,42 +8,41 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import NumberTicker from '@/components/ui/number-ticker'
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
-import { getTokenFromDb } from "@/app/(market-pages)/action/marketAction";
-
-
-export async function generateStaticParams() {
-  const tokens: { id: number; symbol: string; name: string; marketCap: number; supply: number, price: number }[] = await getTokenFromDb()
-  return tokens.map((token) => ({
-    symbol: token.symbol,
-    name: token.name,
-    id: token.id,
-    price: token.price,
-    marketCap: token.marketCap,
-    supply: token.supply,
-    priceLastDay: 0,
-    priceLast2Days: 0,
-    priceLast3Days: 0,
-    priceLast4Days: 0,
-    priceLast5Days: 0,
-    priceLast6Days: 0,
-    priceLast7Days: 0,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  }))
-}
-
-export async function generateMetadata({ params }: { params: Promise<{ symbol: string }> }): Promise<Metadata> {
-  const { symbol } = await params;
+import { url } from '@/lib/utils'
+export async function generateMetadata({ params }: { params: { symbol: string } }): Promise<Metadata> {
   return {
-    title: `Token - ${symbol} || Voltix`,
-    description: `Token - ${symbol} || Voltix`,
+    title: `Token - ${params.symbol} || Voltix`,
+    description: `Token - ${params.symbol} || Voltix`,
   }
 }
 
-export default async function MarketPageDetail({ params }: { params: Promise<{ symbol: string }> }) {
-  const { symbol } = await params;
-  const token = await getTokenBySymbol(symbol);
-  const transactions = await getRecentTransactions(symbol);
+async function getTokenData(symbol: string) {
+  const res = await fetch(`${url}/api/tokens/${symbol}`);
+  const data = await res.json();
+  return data.success ? data.token : null;
+}
+
+async function getTransactions(symbol: string) {
+  const res = await fetch(`${url}/api/transactions/${symbol}`);
+  const data = await res.json();
+  return data.success ? data.transactions : [];
+}
+
+async function getUserBalances(userId: string) {
+  const res = await fetch(`${url}/api/user/balance?userId=${userId}`);
+  const data = await res.json();
+  return data.success ? data.balance : { USDT: 0, USDC: 0 };
+}
+
+async function getUserTokenBalance(userId: string, symbol: string) {
+  const res = await fetch(`${url}/api/user/token-balance?userId=${userId}&symbol=${symbol}`);
+  const data = await res.json();
+  return data.success ? data.balance : 0;
+}
+
+export default async function MarketPageDetail({ params }: { params: { symbol: string } }) {
+  const token = await getTokenData(params.symbol);
+  const transactions = await getTransactions(params.symbol);
   const supabase = createClient();
   const { data: { user } } = await (await supabase).auth.getUser();
 
@@ -55,11 +53,8 @@ export default async function MarketPageDetail({ params }: { params: Promise<{ s
   let tokenBalance = 0;
 
   if (user) {
-    const res = await getUserBalance(user.id) as { USDT: number, USDC: number };
-    usd = res;
-    const userToken = await getUserTokenBalance(user.id, symbol);
-    tokenBalance = userToken;
-    
+    usd = await getUserBalances(user.id);
+    tokenBalance = await getUserTokenBalance(user.id, params.symbol);
   }
 
   if (!token) {

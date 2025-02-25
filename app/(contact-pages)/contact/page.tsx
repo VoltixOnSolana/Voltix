@@ -15,7 +15,6 @@ export default async function ContactPage() {
       </p>
       <br />
       <ContactForm />
-    
     </div>
   )
 }
