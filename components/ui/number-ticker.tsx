@@ -12,6 +12,7 @@ export default function NumberTicker({
   decimalPlaces = 0,
   isPrimary = false,
   isAccueil = false,
+  isBilling = false,
 }: {
   value: number;
   direction?: "up" | "down";
@@ -20,6 +21,7 @@ export default function NumberTicker({
   decimalPlaces?: number;
   isPrimary?: boolean;
   isAccueil?: boolean;
+  isBilling?: boolean;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [previousValue, setPreviousValue] = useState(value);
@@ -63,7 +65,7 @@ export default function NumberTicker({
               maximumFractionDigits: 2,
             }).format(latest);
 
-        ref.current.textContent = formattedNumber + (isAccueil ? "" : " €");
+        ref.current.textContent = formattedNumber + (isAccueil || isBilling ? "" : " $");
       }
     });
   }, [springValue]);

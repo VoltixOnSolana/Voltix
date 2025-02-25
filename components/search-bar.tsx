@@ -23,10 +23,11 @@ export function SearchBar() {
             defaultItems={tokens}
             label="Rechercher un token"
             placeholder="BTC, ETH, etc..."
-            className="max-w-xs bg-[#18181b] border-gray-800 max-h-[50px]"
+            className="max-w-xs border-gray-800 max-h-[50px]"
             selectedKey={selectedToken}
             onSelectionChange={handleSelectionChange}
             size="sm"
+            variant="underlined"
         >
             {(token) => (
                 <AutocompleteItem key={token.symbol} textValue={token.symbol}>
@@ -35,7 +36,7 @@ export function SearchBar() {
                             <span className="text-small">{token.symbol}</span>
                             <span className="text-tiny text-default-400">{token.name}</span>
                         </div>
-                        <span className="text-small">${token.price.toFixed(2)}</span>
+                        <span className="text-small">{token.price.toFixed(2)} $</span>
                     </div>
                 </AutocompleteItem>
             )}
