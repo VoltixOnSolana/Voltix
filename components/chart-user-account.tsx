@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent } from "@/components/ui/chart"
 import { useTokens } from "@/contexts/TokenContext"
 import UserPageAccountSkeleton from "@/app/(user-pages)/user/[idUser]/account/loading-account"
+import { Spacer } from "@heroui/react"
 
 // Palette de violets : dégradé de violet en ajustant la luminosité
 const violetPalette = [
@@ -70,10 +71,11 @@ export function ChartUserAccount({rows}: ChartUserProps) {
     // Rendu du graphique avec les données disponibles
     return (
         <Card className="bg-[#18181b] border-gray-800 p-4 max-h-[500px] min-h-[500px]">
-            <CardHeader className="pb-0">
+            <CardHeader className="pb-0 space-y-4">
                 <CardTitle>Distribution de vos cryptos</CardTitle>
                 <CardDescription>Top 5 des cryptos détenues</CardDescription>
             </CardHeader>
+            <Spacer y={5}/>
             <CardContent className="flex-1 pb-0">
                 <ChartContainer
                     config={chartConfig}
