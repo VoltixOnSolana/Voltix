@@ -6,6 +6,7 @@ import FooterLayout from "@/components/footer-layout";
 import { createClient } from "@/utils/supabase/server";
 import { TokenProvider } from '@/contexts/TokenContext';
 import { Toaster } from "@/components/ui/toaster"
+import { ThemeProvider } from "next-themes";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -34,14 +35,16 @@ export default async function RootLayout({
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
       <body suppressHydrationWarning className="bg-gray-900 text-white h-full">
-        <Providers>
-          <TokenProvider>
-            <NavbarLayout user={user} />
-            {children}
-            <FooterLayout />
-          </TokenProvider>
-          <Toaster />
-        </Providers>
+        <ThemeProvider attribute="class" defaultTheme="dark">
+          <Providers>
+            <TokenProvider>
+              <NavbarLayout user={user} />
+              {children}
+              <FooterLayout />
+            </TokenProvider>
+            <Toaster />
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );
