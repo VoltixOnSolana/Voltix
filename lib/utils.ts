@@ -13,3 +13,5 @@ export const formSchema = z.object({
 })
 
 export type FormData = z.infer<typeof formSchema>
+
+export const url = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://voltix-phi.vercel.app"
