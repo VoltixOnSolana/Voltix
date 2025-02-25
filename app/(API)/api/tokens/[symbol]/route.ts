@@ -1,14 +1,14 @@
-import { NextResponse } from "next/server";
+import { type NextRequest } from 'next/server'
 import prisma from "@/utils/prisma";
 
 export async function GET(
-  request: Request,
-  { params }: { params: { symbol: string } }
+  request: NextRequest,
 ) {
+  const symbol = request.nextUrl.searchParams.get('symbol')
   try {
     const token = await prisma.token.findFirst({
       where: {
-        symbol: params.symbol
+        symbol: symbol as string
       },
       select: {
         id: true,
@@ -28,18 +28,18 @@ export async function GET(
     });
 
     if (!token) {
-      return NextResponse.json({
+      return Response.json({
         success: false,
         error: "Token non trouvé"
       }, { status: 404 });
     }
 
-    return NextResponse.json({
+    return Response.json({
       success: true,
       token
     });
   } catch (error) {
-    return NextResponse.json({
+    return Response.json({
       success: false,
       error: "Erreur lors de la récupération du token"
     }, { status: 500 });
