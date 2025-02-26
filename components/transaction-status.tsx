@@ -3,6 +3,9 @@
 import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { XCircle } from "lucide-react"
+import Link from "next/link"
+import { Button } from "@heroui/react"
+import { paths } from "@/paths"
 
 interface CheckmarkProps {
   size?: number
@@ -76,10 +79,10 @@ function Checkmark({ size = 100, strokeWidth = 2, color = "currentColor", classN
 
 export function TransactionStatus({ success, amount = 0, tokens = 0 }: TransactionStatusProps) {
   return (
-    <Card className="w-full max-w-sm mx-auto p-6 min-h-[300px] flex flex-col justify-center bg-[#081220] backdrop-blur-xs">
+    <Card className="w-96 mx-auto p-6 min-h-[300px] flex flex-col justify-center bg-[#081220] backdrop-blur-xs">
       <CardContent className="space-y-4 flex flex-col items-center justify-center">
         <motion.div
-          className="flex justify-center"
+          className="flex justify-center w-full"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{
@@ -214,6 +217,16 @@ export function TransactionStatus({ success, amount = 0, tokens = 0 }: Transacti
             transition={{ delay: 1.4, duration: 0.4 }}
           >
             Taux de change: 1 USD = 1 USDT
+          </motion.div>
+          <motion.div
+            className="w-full text-xs text-zinc-500 dark:text-zinc-400 mt-2 text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.4, duration: 0.4 }}
+          >
+            <Button as={Link} variant="solid" color="primary" href={paths.market()}>
+              Aller voir le marché
+            </Button>
           </motion.div>
         </motion.div>
       </CardContent>
