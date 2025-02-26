@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast"
 import { formSchema, FormData } from '@/lib/utils'
 import { submitForm } from '../app/(contact-pages)/actions/contactActions'
 import {Spacer} from "@heroui/spacer";
+import { motion } from "framer-motion"
             
 
 export default function ContactForm() {
@@ -63,76 +64,144 @@ export default function ContactForm() {
   }
 
   return (
-    <Form
-      className="w-[350px] text-white display:inline-block space-y-4"
-      onSubmit={handleSubmit(onSubmit)}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
     >
-      <Input
-        endContent={
-          isValidName ? (
-            <UserCheck className={`w-5 h-5 ${getIconColor(isValidName, !!errors.name)}`} />
-          ) : (
-            <UserRoundX className={`w-5 h-5 ${getIconColor(isValidName, !!errors.name)}`} />
-          )
-        }
-        isRequired
-        label="Nom"
-        labelPlacement="outside"
-        id="name"
-        placeholder="Entrez votre nom"
-        {...register("name")}
-      />
-      {errors.name && <p className="text-[12px] text-red-500">{errors.name.message}</p>}
-      <Spacer y={4} />
-
-      <Input
-        endContent={
-          isValidEmail ? (
-            <MailCheck className={`w-5 h-5 ${getIconColor(isValidEmail, !!errors.email)}`} />
-          ) : (
-            <MailWarning className={`w-5 h-5 ${getIconColor(isValidEmail, !!errors.email)}`} />
-          )
-        }
-        isRequired
-        label="Email"
-        labelPlacement="outside"
-        id="email"
-        placeholder="Entrez votre E-mail"
-        type="email"
-        {...register("email")}
-      />
-      {errors.email && <p className="text-[12px] text-red-500">{errors.email.message}</p>}
-      {/* <Spacer y={4} /> */}
-      <Textarea
-        endContent={
-          isValidMessage ? (
-            <LucideMessageCircle className={`w-5 h-5 ${getIconColor(isValidMessage, !!errors.message)}`} />
-          ) : (
-            <LucideMessageCircleX className={`w-5 h-5 ${getIconColor(isValidMessage, !!errors.message)}`} />
-          )
-        }
-        isRequired
-        label="Message"
-        labelPlacement="outside"
-        id="message"
-        placeholder="Entrez votre message"
-        {...register("message")}
-      />
-      {errors.message && <p className="text-[12px] text-red-500">{errors.message.message}</p>}
-      {/* <Spacer y={4} /> */}
-      <div className="flex gap-4 w-full">
-        <Button className="w-full" color="primary" disabled={isSubmitting} type="submit">
-          {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Envoyer <Send className="w-5 h-5" />
-        </Button>
-        <Button
-          type="reset"
-          onPress={resetForm}
-          className="bg-primary text-primary-foreground hover:bg-red-500 hover:text-primary-foreground/90"
+      <Form
+        className="w-96 text-white display:inline-block space-y-4"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
+          className="w-full"
         >
-          <RefreshCcw className="w-5 h-5" />
-        </Button>
-      </div>
-    </Form>
+          <Input
+            endContent={
+              isValidName ? (
+                <UserCheck className={`w-5 h-5 ${getIconColor(isValidName, !!errors.name)}`} />
+              ) : (
+                <UserRoundX className={`w-5 h-5 ${getIconColor(isValidName, !!errors.name)}`} />
+              )
+            }
+            isRequired
+            label="Nom"
+            labelPlacement="outside"
+            id="name"
+            className="w-full"
+            placeholder="Entrez votre nom"
+            {...register("name")}
+          />
+          {errors.name && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-[12px] text-red-500"
+            >
+              {errors.name.message}
+            </motion.p>
+          )}
+        </motion.div>
+        <Spacer y={4} />
+        <motion.div
+          className="w-full"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <Input
+            endContent={
+              isValidEmail ? (
+                <MailCheck className={`w-5 h-5 ${getIconColor(isValidEmail, !!errors.email)}`} />
+              ) : (
+                <MailWarning className={`w-5 h-5 ${getIconColor(isValidEmail, !!errors.email)}`} />
+              )
+            }
+            isRequired
+            label="Email"
+            labelPlacement="outside"
+            id="email"
+            placeholder="Entrez votre E-mail"
+            type="email"
+            {...register("email")}
+          />
+          {errors.email && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-[12px] text-red-500"
+            >
+              {errors.email.message}
+            </motion.p>
+          )}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4 }}
+          className="w-full" 
+        >
+          <Textarea
+            endContent={
+              isValidMessage ? (
+                <LucideMessageCircle className={`w-5 h-5 ${getIconColor(isValidMessage, !!errors.message)}`} />
+              ) : (
+                <LucideMessageCircleX className={`w-5 h-5 ${getIconColor(isValidMessage, !!errors.message)}`} />
+              )
+            }
+            isRequired
+            label="Message"
+            labelPlacement="outside"
+            id="message"
+            placeholder="Entrez votre message"
+            {...register("message")}
+          />
+          {errors.message && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-[12px] text-red-500"
+            >
+              {errors.message.message}
+            </motion.p>
+          )}
+        </motion.div>
+
+        <motion.div
+          className="flex gap-4 w-full"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-full"
+          >
+            <Button className="w-full" color="primary" disabled={isSubmitting} type="submit">
+              {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Envoyer <Send className="w-5 h-5" />
+            </Button>
+          </motion.div>
+          
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button
+              type="reset"
+              onPress={resetForm}
+              className="bg-primary text-primary-foreground hover:bg-red-500 hover:text-primary-foreground/90"
+            >
+              <RefreshCcw className="w-5 h-5" />
+            </Button>
+          </motion.div>
+        </motion.div>
+      </Form>
+    </motion.div>
   )
 }
