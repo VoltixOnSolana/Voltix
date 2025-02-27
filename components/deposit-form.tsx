@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js"
 import { usePathname } from "next/navigation"
@@ -94,7 +93,7 @@ function CreditCardDesign({
 
   return (
     <div className="relative w-[420px] h-[230px] rounded-xl bg-gradient-to-br from-gray-950 to-gray-800 p-6 shadow-2xl border border-gray-700">
-      <div className="relative z-10 h-full flex flex-col justify-between">
+      <div className="relative h-full flex flex-col justify-between">
         <div className="flex justify-between items-start">
           <div className="w-14 h-10 bg-gradient-to-r from-gray-300 to-gray-500 rounded-md shadow-md border border-gray-500"></div>
 
