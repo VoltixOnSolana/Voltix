@@ -198,14 +198,22 @@ export default function DepositForm() {
 
   return (
     <div className="flex justify-center items-center min-h-screen w-full">
+      
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="w-[500px]"
+          className="w-[1100px]"
         >
-          <Card className="w-full bg-[#081220]">
+          <Card className="w-full bg-[#081220] grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px] flex items-center p-6">
+            <CreditCardDesign
+              cardNumber={cardNumberIsComplete}
+              expiryDate={myIsComplete}
+              cvcCode={cvcIsComplete}
+              imageDisplay={selectedPayment || ""}
+            />
+            <div>
             <CardHeader>
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
@@ -223,14 +231,8 @@ export default function DepositForm() {
               </motion.div>
             </CardHeader>
             <div className="flex items-center justify-center">
-              <CreditCardDesign
-                cardNumber={cardNumberIsComplete}
-                expiryDate={myIsComplete}
-                cvcCode={cvcIsComplete}
-                imageDisplay={selectedPayment || ""}
-              />
+              
             </div>
-            <Spacer y={4} />
             <CardContent>
               <form onSubmit={handlePayment} className="space-y-6">
                 <motion.div 
@@ -335,6 +337,7 @@ export default function DepositForm() {
                 </motion.div>
               </form>
             </CardContent>
+            </div>
           </Card>
         </motion.div>
       </AnimatePresence>
