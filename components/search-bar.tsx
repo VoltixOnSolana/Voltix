@@ -64,7 +64,6 @@ export function SearchBar() {
                 selectorButton: "text-default-500",
                 listbox: "bg-transparent",
             }}
-            e
         >
             {(token) => (
                 <AutocompleteItem 

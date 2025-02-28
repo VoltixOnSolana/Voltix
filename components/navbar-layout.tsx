@@ -56,7 +56,7 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
     return (
         <Navbar
             shouldHideOnScroll
-            className={"bg-black/30 text-white"}
+            className={"bg-background"}
             onMenuOpenChange={setIsMenuOpen}
             isBordered
         >
@@ -66,7 +66,7 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
                     className="sm:hidden"
                 />
                 <NavbarBrand>
-                    <Link href={paths.home()} className="text-white text-2xl">
+                    <Link href={paths.home()} className="text-foreground text-2xl">
                         <p className="font-bold text-inherit">Voltix</p>
                     </Link>
                 </NavbarBrand>
@@ -74,7 +74,7 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
 
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
                 <NavbarItem isActive={isActive(paths.home())}>
-                    <Link className="text-white" href={paths.home()}>
+                    <Link className="text-foreground" href={paths.home()}>
                         Accueil
                     </Link>
                 </NavbarItem>
@@ -85,9 +85,9 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
                         <DropdownTrigger>
                             <Button
                                 disableRipple
-                                className="p-0 bg-transparent data-[hover=true]:bg-transparent text-white"
-                                endContent={<ChevronDownIcon className="text-white" />}
-                                radius="sm"
+                                className="p-0 bg-transparent data-[hover=true]:bg-transparent text-foreground text-md"
+                                endContent={<ChevronDownIcon className="text-foreground w-4 h-4" />}
+                                radius="md"
                                 variant="light"
                             >
                                 Découvrir
@@ -113,7 +113,7 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
                 </Dropdown>
 
                 <NavbarItem isActive={isActive(paths.contact())}>
-                    <Link className="text-white" href={paths.contact()}>
+                    <Link className="text-foreground" href={paths.contact()}>
                         Contact
                     </Link>
                 </NavbarItem>
@@ -122,7 +122,7 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
             {!user ? (
                 <NavbarContent justify="end">
                     <NavbarItem className="hidden lg:flex">
-                        <Link className="text-white" href={paths.signIn()}>Connexion</Link>
+                        <Link className="text-foreground" href={paths.signIn()}>Connexion</Link>
                     </NavbarItem>
                     <NavbarItem>
                         <Button as={Link} color="primary" href={paths.signUp()} variant="solid">
@@ -212,24 +212,24 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
                 </NavbarContent>
             )}
 
-            <NavbarMenu className="bg-gray-900 text-white">
+            <NavbarMenu className="bg-background">
                 <NavbarMenuItem isActive={isActive(paths.home())}>
-                    <Link className="text-white w-full" href={paths.home()}>
+                    <Link className="text-foreground w-full" href={paths.home()}>
                         Accueil
                     </Link>
                 </NavbarMenuItem>
                 <NavbarMenuItem isActive={isActive(paths.market())}>
-                    <Link className="text-white w-full" href={paths.market()}>
+                    <Link className="text-foreground w-full" href={paths.market()}>
                         Market
                     </Link>
                 </NavbarMenuItem>
                 <NavbarMenuItem isActive={isActive(paths.about())}>
-                    <Link className="text-white w-full" href={paths.about()}>
+                    <Link className="text-foreground w-full" href={paths.about()}>
                         A propos
                     </Link>
                 </NavbarMenuItem>
                 <NavbarMenuItem isActive={isActive(paths.contact())}>
-                    <Link className="text-white w-full" href={paths.contact()}>
+                    <Link className="text-foreground w-full" href={paths.contact()}>
                         Contact
                     </Link>
                 </NavbarMenuItem>
