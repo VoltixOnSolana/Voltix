@@ -14,39 +14,66 @@ function FloatingPaths({ position }: { position: number }) {
             152 - i * 5 * position
         } ${343 - i * 6}C${616 - i * 5 * position} ${470 - i * 6} ${
             684 - i * 5 * position
-        } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
+        } ${200 - i * 6} ${684 - i * 5 * position} ${200 - i * 6}`,
         color: `rgba(15,23,42,${0.1 + i * 0.03})`,
         width: 0.5 + i * 0.03,
     }));
 
     return (
-        <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 pointer-events-none overflow-visible">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-background z-10" />
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-background z-10" />
+            <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-background z-10" />
             <svg
-                className="w-full h-full text-primary"
-                viewBox="0 0 696 316"
+                className="w-full h-full text-primary relative"
+                viewBox="0 0 696 516"
+                preserveAspectRatio="xMidYMid meet"
                 fill="none"
             >
-                <title>Background Paths</title>
-                {paths.map((path) => (
-                    <motion.path
-                        key={path.id}
-                        d={path.d}
-                        stroke="currentColor"
-                        strokeWidth={path.width}
-                        strokeOpacity={0.1 + path.id * 0.03}
-                        initial={{ pathLength: 0.3, opacity: 0.6 }}
-                        animate={{
-                            pathLength: 1,
-                            opacity: [0.3, 0.6, 0.3],
-                            pathOffset: [0, 1, 0],
-                        }}
-                        transition={{
-                            duration: 20 + Math.random() * 10,
-                            repeat: Number.POSITIVE_INFINITY,
-                            ease: "linear",
-                        }}
-                    />
-                ))}
+                <defs>
+                    <linearGradient id="fadeGradient" x1="0" x2="1" y1="0" y2="0">
+                        <stop offset="0%" stopColor="white" stopOpacity="0" />
+                        <stop offset="10%" stopColor="white" stopOpacity="1" />
+                        <stop offset="90%" stopColor="white" stopOpacity="1" />
+                        <stop offset="100%" stopColor="white" stopOpacity="0" />
+                    </linearGradient>
+                    <linearGradient id="verticalFadeGradient" x1="0" x2="0" y1="1" y2="0">
+                        <stop offset="0%" stopColor="white" stopOpacity="1" />
+                        <stop offset="85%" stopColor="white" stopOpacity="1" />
+                        <stop offset="100%" stopColor="white" stopOpacity="0" />
+                    </linearGradient>
+                    <mask id="fadeMask">
+                        <rect width="100%" height="100%" fill="url(#fadeGradient)" />
+                        <rect width="100%" height="100%" fill="url(#verticalFadeGradient)" />
+                    </mask>
+                </defs>
+                <g mask="url(#fadeMask)">
+                    {paths.map((path) => (
+                        <motion.path
+                            key={path.id}
+                            d={path.d}
+                            stroke="currentColor"
+                            strokeWidth={path.width}
+                            strokeOpacity={0.1 + path.id * 0.03}
+                            initial={{ pathLength: 0.3, opacity: 0.6 }}
+                            animate={{
+                                pathLength: 1,
+                                opacity: [0.3, 0.6, 0.3],
+                                pathOffset: [0, 1, 0],
+                            }}
+                            transition={{
+                                duration: 20 + Math.random() * 10,
+                                repeat: Number.POSITIVE_INFINITY,
+                                ease: "linear",
+                                opacity: {
+                                    duration: 3,
+                                    repeat: Number.POSITIVE_INFINITY,
+                                    ease: "easeInOut"
+                                }
+                            }}
+                        />
+                    ))}
+                </g>
             </svg>
         </div>
     );
