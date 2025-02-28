@@ -4,7 +4,7 @@ import prisma from "@/utils/prisma";
 export async function GET(
   request: NextRequest,
 ) {
-  const symbol = request.nextUrl.searchParams.get('symbol')
+  const symbol = request.nextUrl.pathname.split('/').pop()
   try {
     const token = await prisma.token.findFirst({
       where: {

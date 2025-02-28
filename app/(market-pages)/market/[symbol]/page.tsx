@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ symbol: s
 }
 
 async function getTokenData(symbol: string) {
-  const res = await fetch(`${url}/api/tokens/symbol?symbol=${symbol}`);
+  const res = await fetch(`${url}/api/tokens/${symbol}`);
   const data = await res.json();
   return data.success ? data.token : null;
 }
