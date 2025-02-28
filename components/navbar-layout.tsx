@@ -51,7 +51,9 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
                     className="sm:hidden"
                 />
                 <NavbarBrand>
-                    <p className="font-bold text-inherit">Voltix</p>
+                    <Link href={paths.home()} className="text-white text-2xl">
+                        <p className="font-bold text-inherit">Voltix</p>
+                    </Link>
                 </NavbarBrand>
             </NavbarContent>
 
