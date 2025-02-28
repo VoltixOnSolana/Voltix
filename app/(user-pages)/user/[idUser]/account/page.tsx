@@ -4,8 +4,6 @@ import { TablesTokens } from "@/components/tables-tokens"
 import { getTokenOfUser } from "../action/userAccountAction"
 import { ChartUserAccount } from "@/components/chart-user-account"
 import { ChartActifUser } from "@/components/chart-actif-user"
-import UserPageSkeleton from "./loading-actif";
-import { Suspense } from 'react'
 
 // Type pour les paramètres de la fonction asynchrone
 type Params = Promise<{ idUser: string }>
