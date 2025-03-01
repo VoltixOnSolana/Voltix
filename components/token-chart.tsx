@@ -61,7 +61,7 @@ export function TokenChart({ token }: TokenChartProps) {
     } satisfies ChartConfig
 
     return (
-        <Card className="bg-[#18181b] border-gray-800 p-4 max-h-[400px] h-full">
+        <Card className="bg-background/40 border-border dark:bg-[#18181b] dark:border-gray-800 p-4 max-h-[400px] h-full">
             <CardHeader>
                 <CardTitle>
                     <div className="flex flex-col gap-2">

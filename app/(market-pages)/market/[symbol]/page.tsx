@@ -105,7 +105,7 @@ export default async function MarketPageDetail({ params }: { params: Promise<{ s
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Statistiques du token */}
-        <Card className="bg-[#18181b] border-gray-800">
+        <Card className="bg-background/40 border-border dark:bg-[#18181b] dark:border-gray-800">
           <CardHeader>
             <CardTitle>Informations utiles</CardTitle>
           </CardHeader>
