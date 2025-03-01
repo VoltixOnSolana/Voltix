@@ -42,4 +42,4 @@ function HeroText() {
   )
 }
 
-export { HeroText }
+export default HeroText;
