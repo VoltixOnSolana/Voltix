@@ -37,7 +37,7 @@ export default function ContactForm() {
   const getIconColor = (isValid: boolean, hasError: boolean) => {
     if (hasError) return "text-red-500"
     if (isValid) return "text-green-500"
-    return "text-white"
+    return "text-foreground"
   }
 
   const resetForm = () => reset()
