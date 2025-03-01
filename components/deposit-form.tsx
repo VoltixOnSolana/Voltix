@@ -13,24 +13,37 @@ import visa from "@/app/(user-pages)/user/[idUser]/deposit/images/visa.png"
 import mastercard from "@/app/(user-pages)/user/[idUser]/deposit/images/mastercard.png"
 import { RadioGroup, useRadio, VisuallyHidden, cn, Spacer, Button } from "@heroui/react"
 import { CreditCard } from "lucide-react"
+import { useTheme } from "next-themes"
 
-const CARD_ELEMENT_OPTIONS = {
-    style: {
-      base: {
-        color: "white",
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        fontSmoothing: "antialiased",
-        fontSize: "16px",
-        "::placeholder": {
-          color: "#aab7c4",
-        },
-      },
-      invalid: {
-        color: "#fa755a",
-        iconColor: "#fa755a",
+const CARD_ELEMENT_OPTIONS_WHITE = {
+  style: {
+    base: {
+      color: "white",
+      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+      fontSmoothing: "antialiased",
+      fontSize: "16px",
+      "::placeholder": {
+        color: "#aab7c4",
       },
     },
-  }
+    invalid: {
+      color: "#fa755a",
+      iconColor: "#fa755a",
+    },
+  },
+}
+
+const CARD_ELEMENT_OPTIONS_BLACK = {
+  style: {
+    base: {
+      color: "black",
+    },
+    invalid: {
+      color: "#fa755a",
+      iconColor: "#fa755a",
+    },
+  },
+}
 export const CustomRadio = (props: any) => {
   const {
     Component,
@@ -104,14 +117,14 @@ function CreditCardDesign({
             />
           </div>
         </div>
-        <div className={`${cardNumberText} text-xs`}>CARD NUMBER</div>
-        <div className="text-2xl tracking-widest text-center">
+        <div className={`${cardNumberText} text-xs`}>Numéro de carte</div>
+        <div className="text-2xl tracking-widest text-center text-white">
           {"xx•• •••• •••• xxxx"}
         </div>
 
         <div className="flex justify-between items-end text-white">
           <div>
-            <div className={`${expiryDateText} text-xs`}>MM/YY</div>
+            <div className={`${expiryDateText} text-xs`}>Date d'expiration</div>
             <div className="tracking-widest">MM/YY</div>
           </div>
           <div>
@@ -122,7 +135,7 @@ function CreditCardDesign({
       </div>
     </div>
   );
-  }
+}
 
 export default function DepositForm() {
   const [loading, setLoading] = useState(false)
@@ -137,6 +150,9 @@ export default function DepositForm() {
   const [cardNumberIsComplete, setCardNumberIsComplete] = useState(false);
   const [cvcIsComplete, setCvcIsComplete] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
+  const { theme } = useTheme()
+
+  const CARD_ELEMENT_OPTIONS = theme === "dark" ? CARD_ELEMENT_OPTIONS_BLACK : CARD_ELEMENT_OPTIONS_WHITE
 
   const handlePayment = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -197,7 +213,7 @@ export default function DepositForm() {
 
   return (
     <div className="flex justify-center items-center min-h-screen w-full">
-      
+
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -205,7 +221,7 @@ export default function DepositForm() {
           transition={{ duration: 0.5 }}
           className="w-[1100px]"
         >
-          <Card className="w-full bg-[#081220] grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px] flex items-center p-6">
+          <Card className="w-full bg-background/40 border-border dark:bg-[#081220] dark:border-gray-800 grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px] flex items-center p-6">
             <CreditCardDesign
               cardNumber={cardNumberIsComplete}
               expiryDate={myIsComplete}
@@ -213,129 +229,129 @@ export default function DepositForm() {
               imageDisplay={selectedPayment || ""}
             />
             <div>
-            <CardHeader>
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.3 }}
-              >
-                <CardTitle>Déposer des fonds</CardTitle>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.3 }}
-              >
-                <CardDescription>Completez votre achat de tokens en utilisant notre méthode de paiement sécurisée.</CardDescription>
-              </motion.div>
-            </CardHeader>
-            <div className="flex items-center justify-center">
-              
-            </div>
-            <CardContent>
-              <form onSubmit={handlePayment} className="space-y-6">
-                <motion.div 
-                  className="space-y-2"
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4, duration: 0.3 }}
+              <CardHeader>
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.3 }}
                 >
-                  <RadioGroup
-                    value={selectedPayment}
-                    onValueChange={setSelectedPayment}
-                    label={
-                      <span className="flex items-center gap-2">
-                        <CreditCard className="w-5 h-5" /> Paiement
-                      </span>
-                    }
-                  >
-                    <div className="flex gap-4 w-full">
-                      <CustomRadio description="Visa" value="visa">
-                        <div className="flex flex-col items-center gap-2 pt-3">
-                          <img
-                            src={visa.src}
-                            alt="Logo Visa"
-                            className="w-15 h-5"
-                          />
-                        </div>
-                      </CustomRadio>
-                      <CustomRadio description="Mastercard" value="mastercard">
-                        <div className="flex flex-col items-center gap-2">
-                          <img
-                            src={mastercard.src}
-                            alt="Logo Mastercard"
-                            className="w-13 h-8"
-                          />
-                        </div>
-                      </CustomRadio>
-                    </div>
-                  </RadioGroup>
-                  <Spacer y={4} />
-                  <Label htmlFor="amount">Montant à déposer</Label>
-                  <Input
-                    id="amount"
-                    type="text"
-                    value={amount}
-                    onChange={(e) => setAmount(Number(e.target.value))}
-                    className="w-full bg-[#111827] text-foreground"
-                    placeholder="Entrez le montant"
-                  />
-                  <p className="text-sm text-gray-500">Vous recevrez: {amount} USDT</p>
-                </motion.div>
-                <motion.div 
-                  className="space-y-2"
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5, duration: 0.3 }}
-                >
-                  <Label>Numéro de carte</Label>
-                  <div className="h-10 px-3 py-2 border rounded-md">
-                    <CardNumberElement
-                      options={CARD_ELEMENT_OPTIONS}
-                      onChange={(event) =>
-                        setCardNumberIsComplete(event.complete)
-                      }
-                    />
-                  </div>
-                </motion.div>
-                <motion.div 
-                  className="flex space-x-4"
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6, duration: 0.3 }}
-                >
-                  <div className="flex-1 space-y-2">
-                    <Label>Date d'expiration</Label>
-                    <div className="h-10 px-3 py-2 border rounded-md">
-                      <CardExpiryElement
-                        options={CARD_ELEMENT_OPTIONS}
-                        onChange={(event) => setMYIsComplete(event.complete)}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex-1 space-y-2">
-                    <Label>CVC</Label>
-                    <div className="h-10 px-3 py-2 border rounded-md">
-                      <CardCvcElement
-                        options={CARD_ELEMENT_OPTIONS}
-                        onChange={(event) => setCvcIsComplete(event.complete)}
-                      />
-                    </div>
-                  </div>
+                  <CardTitle>Déposer des fonds</CardTitle>
                 </motion.div>
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7, duration: 0.3 }}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
+                  transition={{ delay: 0.3, duration: 0.3 }}
                 >
-                  <Button type="submit" disabled={loading} className="w-full">
-                    {loading ? "Traitement en cours..." : "Payer avec Stripe"}
-                  </Button>
+                  <CardDescription>Completez votre achat de tokens en utilisant notre méthode de paiement sécurisée.</CardDescription>
                 </motion.div>
-              </form>
-            </CardContent>
+              </CardHeader>
+              <div className="flex items-center justify-center">
+
+              </div>
+              <CardContent>
+                <form onSubmit={handlePayment} className="space-y-6">
+                  <motion.div
+                    className="space-y-2"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4, duration: 0.3 }}
+                  >
+                    <RadioGroup
+                      value={selectedPayment}
+                      onValueChange={setSelectedPayment}
+                      label={
+                        <span className="flex items-center gap-2">
+                          <CreditCard className="w-5 h-5" /> Paiement
+                        </span>
+                      }
+                    >
+                      <div className="flex gap-4 w-full">
+                        <CustomRadio description="Visa" value="visa">
+                          <div className="flex flex-col items-center gap-2 pt-3">
+                            <img
+                              src={visa.src}
+                              alt="Logo Visa"
+                              className="w-15 h-5"
+                            />
+                          </div>
+                        </CustomRadio>
+                        <CustomRadio description="Mastercard" value="mastercard">
+                          <div className="flex flex-col items-center gap-2">
+                            <img
+                              src={mastercard.src}
+                              alt="Logo Mastercard"
+                              className="w-13 h-8"
+                            />
+                          </div>
+                        </CustomRadio>
+                      </div>
+                    </RadioGroup>
+                    <Spacer y={4} />
+                    <Label htmlFor="amount">Montant à déposer</Label>
+                    <Input
+                      id="amount"
+                      type="text"
+                      value={amount}
+                      onChange={(e) => setAmount(Number(e.target.value))}
+                      className="w-full bg-background/40 border-border dark:bg-[#111827] dark:border-gray-800 text-foreground"
+                      placeholder="Entrez le montant"
+                    />
+                    <p className="text-sm text-gray-500">Vous recevrez: {amount} USDT</p>
+                  </motion.div>
+                  <motion.div
+                    className="space-y-2"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.5, duration: 0.3 }}
+                  >
+                    <Label>Numéro de carte</Label>
+                    <div className="h-10 px-3 py-2 border rounded-md">
+                      <CardNumberElement
+                        options={CARD_ELEMENT_OPTIONS}
+                        onChange={(event) =>
+                          setCardNumberIsComplete(event.complete)
+                        }
+                      />
+                    </div>
+                  </motion.div>
+                  <motion.div
+                    className="flex space-x-4"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.6, duration: 0.3 }}
+                  >
+                    <div className="flex-1 space-y-2">
+                      <Label>Date d'expiration</Label>
+                      <div className="h-10 px-3 py-2 border rounded-md">
+                        <CardExpiryElement
+                          options={CARD_ELEMENT_OPTIONS}
+                          onChange={(event) => setMYIsComplete(event.complete)}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex-1 space-y-2">
+                      <Label>CVC</Label>
+                      <div className="h-10 px-3 py-2 border rounded-md">
+                        <CardCvcElement
+                          options={CARD_ELEMENT_OPTIONS}
+                          onChange={(event) => setCvcIsComplete(event.complete)}
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7, duration: 0.3 }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Button type="submit" disabled={loading} isLoading={loading} className="w-full" color="primary">
+                      {loading ? "Traitement en cours..." : "Payer avec Stripe"}
+                    </Button>
+                  </motion.div>
+                </form>
+              </CardContent>
             </div>
           </Card>
         </motion.div>
