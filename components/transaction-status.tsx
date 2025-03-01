@@ -79,7 +79,7 @@ function Checkmark({ size = 100, strokeWidth = 2, color = "currentColor", classN
 
 export function TransactionStatus({ success, amount = 0, tokens = 0 }: TransactionStatusProps) {
   return (
-    <Card className="w-96 mx-auto p-6 min-h-[300px] flex flex-col justify-center bg-[#081220] backdrop-blur-xs">
+    <Card className="w-96 mx-auto p-6 min-h-[300px] flex flex-col justify-center bg-background/40 border-border dark:bg-[#081220] dark:border-gray-800 backdrop-blur-xs">
       <CardContent className="space-y-4 flex flex-col items-center justify-center">
         <motion.div
           className="flex justify-center w-full"
@@ -146,7 +146,7 @@ export function TransactionStatus({ success, amount = 0, tokens = 0 }: Transacti
           </motion.h2>
           <div className="flex items-center gap-4">
             <motion.div
-              className="flex-1 bg-[#111827] rounded-xl p-3 border border-zinc-700/50 dark:border-zinc-200/50 backdrop-blur-md"
+              className="flex-1 p-4 bg-background/40 border-border dark:bg-[#111827] rounded-xl dark:border-gray-800 backdrop-blur-md"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{

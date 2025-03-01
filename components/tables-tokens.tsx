@@ -155,7 +155,7 @@ export function TablesTokens({ isActifUser, tokensFromUser }: TableTokensProps) 
                         onMouseEnter={(e) => e.currentTarget.style.opacity = "0.8"} 
                         onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}>
                             {(columnKey) => (
-                                <TableCell>
+                                <TableCell className="text-foreground">
                                     {columnKey === "price" && !isActifUser
                                         ? <NumberTicker value={item.price} isPrimary={false} />
                                         : isActifUser && columnKey === "price"

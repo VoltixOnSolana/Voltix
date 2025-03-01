@@ -21,14 +21,14 @@ export default function Login() {
 
   return (  
     <Form
-      className="w-full h-screen justify-center items-center space-y-4 text-white"
+      className="w-full h-screen justify-center items-center space-y-4 text-foreground"
       validationBehavior="native"
       action={formAction}
     >
       <h1 className="text-2xl font-medium text-center">Se connecter</h1>
       <div className="flex flex-col gap-4 max-w-lg items-center justify-center">
         <Input       
-          endContent={<Mail className="w-5 h-5" />}  
+          endContent={<Mail className="w-5 h-5 text-foreground" />}  
           isRequired
           label="Email"
           labelPlacement="outside"
@@ -43,7 +43,7 @@ export default function Login() {
           name="password"
           placeholder="Entrez votre mot de passe"
           type="password"
-          endContent={<Lock className="w-5 h-5" />}
+          endContent={<Lock className="w-5 h-5 text-foreground" />}
         />
         <div className="flex gap-4">
           <Button className="w-full" color="primary" type="submit" isLoading={pending} isDisabled={pending}>

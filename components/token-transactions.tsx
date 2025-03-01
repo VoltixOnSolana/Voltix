@@ -40,7 +40,7 @@ interface TokenTransactionsProps {
 
 export function TokenTransactions({ transactions }: TokenTransactionsProps) {
     return (
-        <Card className="bg-[#18181b] border-gray-800">
+        <Card className="bg-background/40 border-border dark:bg-[#18181b] dark:border-gray-800">
             <CardHeader>
                 <CardTitle>Transactions récentes</CardTitle>
             </CardHeader>

@@ -90,7 +90,7 @@ export function ChartActifUser({ rows, idUser }: ChartActifUserProps) {
   // Si aucune donnée n'est disponible, afficher un message et un bouton
   if (rows.length === 0) {
     return (
-      <Card className="bg-[#18181b] border-gray-800 p-4 max-h-[500px] min-h-[200px]">
+      <Card className="bg-background/40 border-border dark:bg-[#18181b] dark:border-gray-800 p-4 max-h-[500px] min-h-[200px]">
         <CardHeader>
           <CardTitle>Votre actif total : <NumberTicker value={0}/></CardTitle>
           <Button
@@ -111,7 +111,7 @@ export function ChartActifUser({ rows, idUser }: ChartActifUserProps) {
   
   // Rendu du graphique avec les données disponibles
   return (
-    <Card className="bg-[#18181b] border-gray-800 p-4 max-h-[500px]">
+    <Card className="bg-background/40 border-border dark:bg-[#18181b] dark:border-gray-800 p-4 max-h-[500px]">
       <CardHeader>
         <CardTitle>Votre actif total : <NumberTicker value={totalAmount} /></CardTitle>
         <CardDescription>Sur les 7 derniers jours</CardDescription>

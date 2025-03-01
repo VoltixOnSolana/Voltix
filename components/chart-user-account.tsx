@@ -34,7 +34,7 @@ export function ChartUserAccount({rows}: ChartUserProps) {
     // Si le tableau est vide, afficher un message
     if (rows.length === 0) {
         return (
-            <Card className="bg-[#18181b] border-gray-800 p-4 max-h-[500px] min-h-[200px] flex flex-col gap-4">
+            <Card className="bg-background/40 border-border dark:bg-[#18181b] dark:border-gray-800 p-4 max-h-[500px] min-h-[200px] flex flex-col gap-4">
                 <CardHeader className="pb-0">
                     <CardTitle>Distribution des Cryptos</CardTitle>
                     <CardDescription>Top 5 des cryptos détenues</CardDescription>
@@ -70,7 +70,7 @@ export function ChartUserAccount({rows}: ChartUserProps) {
 
     // Rendu du graphique avec les données disponibles
     return (
-        <Card className="bg-[#18181b] border-gray-800 p-4 max-h-[500px] min-h-[500px]">
+        <Card className="bg-background/40 border-border dark:bg-[#18181b] dark:border-gray-800 p-4 max-h-[500px] min-h-[500px]">
             <CardHeader className="pb-0 space-y-4">
                 <CardTitle>Distribution de vos cryptos</CardTitle>
                 <CardDescription>Top 5 des cryptos détenues</CardDescription>

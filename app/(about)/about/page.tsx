@@ -72,7 +72,7 @@ const socialLinks = [
 export default function AboutPage() {
   const itemClasses = {
     base: "py-0 w-full",
-    title: "font-normal text-lg text-gray-100",
+    title: "font-normal text-lg text-foreground",
     trigger: "px-2 py-0 rounded-lg h-14 flex items-center",
     content: "text-medium px-2",
   };
@@ -110,10 +110,10 @@ export default function AboutPage() {
         className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]"
       >
         <div className="flex flex-col justify-center space-y-4">
-          <h1 className="text-4xl font-bold tracking-tighter sm:text-6xl xl:text-7xl text-[#EAEAEA]">
+          <h1 className="text-4xl font-bold tracking-tighter sm:text-6xl xl:text-7xl text-foreground/80 dark:text-[#EAEAEA]">
             À propos de Voltix
           </h1>
-          <p className="max-w-[600px] text-[#A1A1A1] md:text-xl">
+          <p className="max-w-[600px] text-foreground/80 dark:text-[#A1A1A1] md:text-xl">
             Nous révolutionnons l'échange de crypto-monnaies en offrant une
             plateforme sécurisée, rapide et accessible à tous.
           </p>
@@ -151,7 +151,7 @@ export default function AboutPage() {
       >
         <Accordion
           variant="light"
-          className="w-[65%] justify-center mx-auto"
+          className="w-[65%] justify-center mx-auto text-foreground"
           itemClasses={itemClasses}
           motionProps={{
             variants: {
@@ -198,6 +198,7 @@ export default function AboutPage() {
             title="Accessibilité"
             subtitle="Faciliter l'accès aux crypto-monnaies pour tous"
             startContent={<EyeIcon className="text-green-500" />}
+            className="text-foreground"
           >
             Notre objectif est de rendre les crypto-monnaies accessibles à tous,
             en simplifiant les processus d'achat, de vente et de gestion des
@@ -210,6 +211,7 @@ export default function AboutPage() {
             title="Innovation"
             subtitle="Exploiter le potentiel de la blockchain au-delà des cryptos"
             startContent={<TrendingUpIcon className="text-green-500" />}
+            className="text-foreground"
           >
             Nous croyons en l'immense potentiel de la blockchain au-delà des
             crypto-monnaies. Nous travaillons activement à intégrer cette
@@ -222,6 +224,7 @@ export default function AboutPage() {
             title="Sécurité"
             subtitle="Protéger les transactions et les actifs numériques"
             startContent={<ShieldCheckIcon className="text-green-500" />}
+            className="text-foreground"
           >
             La sécurité des transactions est notre priorité. Nous développons des
             solutions qui garantissent la protection des actifs tout en étant
@@ -234,6 +237,7 @@ export default function AboutPage() {
             title="Communauté"
             subtitle="Créer un réseau de passionnés et d'experts"
             startContent={<Users2Icon className="text-green-500" />}
+            className="text-foreground"
           >
             Nous cherchons à rassembler les passionnés de crypto-monnaies du monde
             entier, en créant une communauté solide et engagée qui partage des
@@ -302,7 +306,7 @@ export default function AboutPage() {
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
         variants={fadeInUp}
-        className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-[#EAEAEA]"
+        className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-foreground dark:text-[#EAEAEA]"
       >
         Notre Équipe
       </motion.h2>

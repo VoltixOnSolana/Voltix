@@ -76,7 +76,7 @@ export default function NumberTicker({
         "inline-block tabular-nums tracking-wider transition-colors duration-500",
         trend === "up" && !isPrimary && "text-green-500",
         trend === "down" && !isPrimary && "text-red-500",
-        !trend && !isPrimary && "text-white",
+        !trend && !isPrimary && "text-foreground",
         isPrimary && "text-primary",
         className,
       )}
