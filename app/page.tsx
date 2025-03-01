@@ -86,6 +86,7 @@ export default function Home() {
           ]}
         />
       </div>
+      <BackgroundPaths title="Je souhaite commencer à trader" description="" />  
     </main>
   );
 }

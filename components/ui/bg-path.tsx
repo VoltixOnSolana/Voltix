@@ -82,9 +82,13 @@ function FloatingPaths({ position }: { position: number }) {
 export default function BackgroundPaths({
     title = "Bienvenue sur Voltix",
     link = paths.signUp(),
+    description = "Tradez de n'importe où vos cryptomonnaies en toute sécurité et rapidement.",
+    buttonText = "Commencer",
 }: {
     title?: string;
     link?: string;
+    description?: string;
+    buttonText?: string;
 }) {
     const words = title.split(" ");
 
@@ -131,7 +135,7 @@ export default function BackgroundPaths({
                             </span>
                         ))}
                     </h1>
-
+                    <p className="text-sm md:text-lg text-foreground-muted max-w-2xl mx-auto py-4">{description}</p>
                     <div
                         className="inline-block group relative bg-gradient-to-b from-black/10 to-white/10 
                         dark:from-white/10 dark:to-black/10 p-px rounded-2xl backdrop-blur-lg 
@@ -148,7 +152,7 @@ export default function BackgroundPaths({
                             hover:shadow-md dark:hover:shadow-neutral-800/50"
                         >
                             <span className="opacity-90 group-hover:opacity-100 transition-opacity">
-                                Commencer
+                                {buttonText}
                             </span>
                             <span
                                 className="ml-3 opacity-70 group-hover:opacity-100 group-hover:translate-x-1.5 
