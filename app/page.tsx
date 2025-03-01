@@ -1,6 +1,5 @@
 "use client";
 
-import CtaSection from "@/components/cta-section";
 import { HeroText } from "@/components/HeroText";
 import BackgroundPaths from "@/components/ui/bg-path";
 import { TiltedScroll } from "@/components/ui/tilted-scroll";

@@ -69,7 +69,7 @@ export default function Signup() {
 
   return (
     <Form
-      className="w-96 mx-auto h-screen justify-center items-center space-y-4 text-white"
+      className="w-96 mx-auto h-screen justify-center items-center space-y-4 text-foreground"
       validationBehavior="native"
       validationErrors={errors}
       onSubmit={onSubmit}
@@ -90,7 +90,7 @@ export default function Signup() {
             labelPlacement="outside"
             name="firstname"
             placeholder="Entrez votre prénom"
-            endContent={<User className="w-5 h-5" />}
+            endContent={<User className="w-5 h-5 text-foreground" />}
           />
           <Input
             isRequired
@@ -105,7 +105,7 @@ export default function Signup() {
             labelPlacement="outside"
             name="lastname"
             placeholder="Entrez votre nom"
-            endContent={<User className="w-5 h-5" />}
+            endContent={<User className="w-5 h-5 text-foreground" />}
           />
         </div>
         <Input
@@ -125,7 +125,7 @@ export default function Signup() {
           placeholder="Entrez votre email"
           type="email"
           onChange={e => setEmail(e.target.value)}
-          endContent={<Mail className="w-5 h-5" />}
+          endContent={<Mail className="w-5 h-5 text-foreground" />}
         />
         <Input
           isRequired
@@ -138,7 +138,7 @@ export default function Signup() {
           type="password"
           value={password}
           onValueChange={setPassword}
-          endContent={<Lock className="w-5 h-5" />}
+          endContent={<Lock className="w-5 h-5 text-foreground" />}
         />
         <div className="flex gap-4">
           <Button className="w-full" color="primary" type="submit" isLoading={loading} isDisabled={loading} >
