@@ -11,7 +11,7 @@ interface TiltedScrollProps {
   className?: string;
 }
 
-export function TiltedScroll({ 
+export default function TiltedScroll({ 
   items = defaultItems,
   className 
 }: TiltedScrollProps) {
