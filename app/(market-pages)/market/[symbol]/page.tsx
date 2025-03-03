@@ -45,10 +45,10 @@ async function getTransactions(symbol: string) {
       createdAt: true,
     }
   });
-
+  
   const transactions = rawTransactions.map(tx => ({
     id: String(tx.id),
-    type: tx.transactionType === 'BUY' ? 'buy' : 'sell',
+    type: tx.transactionType,
     amount: tx.amount,
     price: tx.priceAtTransaction,
     createdAt: tx.createdAt
