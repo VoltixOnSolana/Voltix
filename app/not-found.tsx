@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { Bitcoin, Home, Moon, Sun } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { useTheme } from "next-themes"
+import { Bitcoin, Home } from "lucide-react"
+import { Button } from "@heroui/react"
+import { paths } from "@/paths"
 
 const FallingBitcoin = ({ screenWidth, screenHeight }: { screenWidth: number, screenHeight: number }) => {
   const startX = Math.random() * screenWidth
@@ -58,25 +58,8 @@ const PulsingBitcoin = () => {
       }}
       className="inline-block"
     >
-      <Bitcoin className="text-primary h-16 w-16 md:h-24 md:w-24" />
+      <Bitcoin className="text-primary h-16 w-16" />
     </motion.div>
-  )
-}
-
-const ThemeToggle = () => {
-  const { theme, setTheme } = useTheme()
-
-  return (
-    <Button
-      variant="outline"
-      size="icon"
-      className="absolute top-4 right-4"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-    >
-      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      <span className="sr-only">Basculer le thème</span>
-    </Button>
   )
 }
 
@@ -103,13 +86,8 @@ export default function NotFound() {
     }
   }, [])
 
-  if (!mounted) {
-    return null
-  }
-
   return (
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
-      <ThemeToggle />
       <div className="fixed inset-0 pointer-events-none">
         {dimensions.width > 0 &&
           dimensions.height > 0 &&
@@ -152,11 +130,9 @@ export default function NotFound() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
-            <Link href="/">
-              <Home className="mr-2 h-4 w-4" />
-              Retour à l'Accueil
-            </Link>
+          <Button as={Link} href={paths.home()} color="primary">
+            <Home className="mr-2 h-4 w-4" />
+            Retour à l'Accueil
           </Button>
         </motion.div>
       </div>
