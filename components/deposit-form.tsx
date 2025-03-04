@@ -104,7 +104,7 @@ function CreditCardDesign({
   const imageSize = isVisa ? "w-17 h-7" : "w-15 h-9";
 
   return (
-    <div className="relative w-[420px] h-[230px] rounded-xl bg-gradient-to-br from-gray-950 to-gray-800 p-6 shadow-2xl border border-gray-700">
+    <div className="min-w-[420px] max-w-[420px] h-[230px] rounded-xl bg-gradient-to-br from-gray-950 to-gray-800 p-6 shadow-2xl border border-gray-700">
       <div className="relative h-full flex flex-col justify-between">
         <div className="flex justify-between items-start">
           <div className="w-14 h-10 bg-gradient-to-r from-gray-300 to-gray-500 rounded-md shadow-md border border-gray-500"></div>
@@ -212,23 +212,25 @@ export default function DepositForm() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen w-full">
+    <div className="flex justify-center items-center min-h-screen w-full px-4 md:px-8 lg:px-16 min-w-[550px]">
 
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="w-[1100px]"
+          className="w-full max-w-[1100px]"
         >
           <Card className="w-full bg-background/40 border-border dark:bg-[#081220] dark:border-gray-800 grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px] flex items-center p-6">
-            <CreditCardDesign
+            <div className="hidden lg:block lg:min-w-[420px] lg:max-w-[420px]">
+              <CreditCardDesign
               cardNumber={cardNumberIsComplete}
               expiryDate={myIsComplete}
               cvcCode={cvcIsComplete}
               imageDisplay={selectedPayment || ""}
-            />
-            <div>
+              />
+            </div>
+            <div className="w-full">
               <CardHeader>
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
