@@ -67,7 +67,9 @@ export function TokenTransactions({ transactions }: TokenTransactionsProps) {
                                                 })
                                                 : columnKey === "type"
                                                     ? item.type === "buy" || item.type === "purchase" ? "Achat" : "Vente"
-                                                    : getKeyValue(item, columnKey)}
+                                                    : columnKey === "amount"
+                                                        ? Math.abs(item.amount)
+                                                        : getKeyValue(item, columnKey)}
                                     </TableCell>
                                 )}
                             </TableRow>
@@ -77,4 +79,4 @@ export function TokenTransactions({ transactions }: TokenTransactionsProps) {
             </CardContent>
         </Card>
     )
-} 
+}
