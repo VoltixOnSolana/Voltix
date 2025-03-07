@@ -118,23 +118,11 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
                     </Link>
                 </NavbarItem>
             </NavbarContent>
-
-            {!user ? (
-                <NavbarContent justify="end">
-                    <NavbarItem className="hidden lg:flex">
-                        <Link className="text-foreground" href={paths.signIn()}>Connexion</Link>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <Button as={Link} color="primary" href={paths.signUp()} variant="solid">
-                            Inscription
-                        </Button>
-                    </NavbarItem>
-                </NavbarContent>
-            ) : (
-                <NavbarContent justify="end">
-                    <NavbarItem className="w-46">
-                        <SearchBar />
-                    </NavbarItem>
+            <NavbarContent justify="end">
+                <NavbarItem className="w-46">
+                    <SearchBar />
+                </NavbarItem>
+                {user && (
                     <Dropdown placement="bottom-end">
                         <DropdownTrigger>
                             <Avatar
@@ -209,9 +197,20 @@ export default function NavbarLayout({ user }: NavbarLayoutProps) {
                             </DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
-                </NavbarContent>
-            )}
-
+                )}
+                {!user && (
+                    <>
+                        <NavbarItem className="hidden lg:flex">
+                            <Link className="text-foreground" href={paths.signIn()}>Connexion</Link>
+                        </NavbarItem>
+                        <NavbarItem>
+                            <Button as={Link} color="primary" href={paths.signUp()} variant="solid">
+                                Inscription
+                            </Button>
+                        </NavbarItem>
+                    </>
+                )}
+            </NavbarContent>
             <NavbarMenu className="bg-background">
                 <NavbarMenuItem isActive={isActive(paths.home())}>
                     <Link className="text-foreground w-full" href={paths.home()}>
