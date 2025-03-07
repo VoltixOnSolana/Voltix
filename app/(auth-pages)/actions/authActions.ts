@@ -69,7 +69,7 @@ export const signInAction = async (formData: FormData) => {
 
   // Gestion des erreurs de connexion
   if (error) {
-    return encodedRedirect("error", "/sign-in", error.message);
+    return { error: "Email ou mot de passe invalide" };
   }
 
   // Redirection vers le compte utilisateur après connexion réussie

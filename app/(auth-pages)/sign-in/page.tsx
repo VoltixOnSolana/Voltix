@@ -5,18 +5,24 @@ import { paths } from "@/paths";
 import { Button, Form, Input } from "@/utils/HeroUI";
 import Link from "next/link";
 import { Mail, Lock } from "lucide-react";
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 
 export default function Login() {
+  const [error, setError] = useState<string | null>(null);
 
   const [state, formAction, pending] = useActionState(async (prevState: any, formData: FormData) => {
     const email = formData.get("email");
     const password = formData.get("password");
     if (!email || !password) {
+      setError("Veuillez remplir tous les champs");
       return { error: "Veuillez remplir tous les champs" };
     }
 
-    return await signInAction(formData);
+    const res = await signInAction(formData);
+    if (res.error) {
+      setError(res.error);
+      return { error: res.error };
+    }
   }, null);
 
   return (  
@@ -50,6 +56,7 @@ export default function Login() {
             {pending ? "Connexion en cours..." : "Se connecter"}
           </Button>
         </div>
+        {error && <p className="text-red-500">{error}</p>}
         <p className="text-sm text-foreground">
           Vous n'avez pas de compte ?{" "}
           <Link className="text-foreground font-medium underline" href={paths.signUp()}>
