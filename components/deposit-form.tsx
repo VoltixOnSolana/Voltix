@@ -18,7 +18,7 @@ import { useTheme } from "next-themes"
 const CARD_ELEMENT_OPTIONS_WHITE = {
   style: {
     base: {
-      color: "white",
+      color: "black",
       fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
       fontSmoothing: "antialiased",
       fontSize: "16px",
@@ -36,7 +36,7 @@ const CARD_ELEMENT_OPTIONS_WHITE = {
 const CARD_ELEMENT_OPTIONS_BLACK = {
   style: {
     base: {
-      color: "black",
+      color: "white",
     },
     invalid: {
       color: "#fa755a",
@@ -44,6 +44,7 @@ const CARD_ELEMENT_OPTIONS_BLACK = {
     },
   },
 }
+
 export const CustomRadio = (props: any) => {
   const {
     Component,
