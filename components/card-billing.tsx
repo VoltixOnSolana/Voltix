@@ -6,30 +6,31 @@ import { CheckCircle, XCircle } from "lucide-react"
 import NumberTicker from "@/components/ui/number-ticker"
 import { motion } from "framer-motion"
 
-export default function CardBilling({ 
-  invoice, 
-  animationDelay = 0 
-}: { 
+export default function CardBilling({
+  invoice,
+  animationDelay = 0
+}: {
   invoice: any;
   animationDelay?: number;
 }) {
   const [isVisible, setIsVisible] = useState(false)
-  
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true)
     }, animationDelay)
-    
+
     return () => clearTimeout(timer)
   }, [animationDelay])
 
   return (
     <motion.div
+      key={invoice.id}
       initial={{ opacity: 0, y: 20 }}
       animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.5 }}
     >
-      <Card key={invoice.id} className="p-6 my-4 mx-auto max-w-2xl shadow-lg rounded-lg bg-background/40 border-border dark:bg-[#121212] dark:border-[#262626] text-white">
+      <Card className="p-6 my-4 mx-auto max-w-2xl shadow-lg rounded-lg bg-background/40 border-border dark:bg-[#121212] dark:border-[#262626] text-white">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-foreground">Facture #{invoice.id}</h2>
           <span
