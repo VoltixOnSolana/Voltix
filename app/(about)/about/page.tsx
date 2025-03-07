@@ -270,7 +270,7 @@ export default function AboutPage() {
           />
         </div>
 
-        <Card className="w-full md:w-2/3 bg-[#1E1E1E] shadow-lg rounded-lg border border-[#262626] text-white">
+        <Card className="w-full md:w-2/3 dark:bg-[#1E1E1E] shadow-lg rounded-lg border dark:border-[#262626] text-foreground">
           <CardContent className="p-6">
             <h2 className="text-2xl font-bold mb-4">Message du PDG</h2>
             <p className="mb-4">
@@ -328,7 +328,7 @@ export default function AboutPage() {
               job={member.job}
               email={member.email}
               userPicture={member.picture}
-              className="bg-gray-900 text-white"
+              className="bg-background text-foreground"
             />
           </motion.div>
         ))}
